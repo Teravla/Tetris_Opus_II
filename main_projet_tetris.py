@@ -22,6 +22,9 @@ class Grille:
             for l in range(len(self.grille_principale[k])):
                 programme.write(str(self.grille_principale[k][l]))
             programme.write("\n")
+            
+print("Commmencer à jouer")
+print("Afficher les réglages du jeu")
 
 if __name__ == "__main__":
     gg = Grille()
