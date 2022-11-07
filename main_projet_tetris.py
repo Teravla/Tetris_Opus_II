@@ -31,4 +31,16 @@ if __name__ == "__main__":
 
     gg.grille()
     gg.affichage_grille()
+
     
+    
+
+    
+"""
+/!\IMPORTANT/!\
+
+Quand tu vas dans projet, tu peux peux cliquer sur les sujet (par exemple cliquer sur "grille" pour voir la description et tu peux faire glisser les slides
+pour les changer de colonnes
+
+/!\IMPORTANT/!\
+"""
