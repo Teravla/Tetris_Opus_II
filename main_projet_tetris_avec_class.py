@@ -119,8 +119,159 @@ class Grille:
             min-=1
     #Fin Figures
 
+
+
 class Forme:
-    pass
+
+    def __init__(self):
+        pass
+    
+    def formes_tous(self):
+        self.forme_tous_ensemble = []
+        self.forme_tous_1= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,1,0,0,0]]
+        self.forme_tous_2= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,1,0,0,0],[1,1,0,0,0]]
+        self.forme_tous_3= [[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0],[0,1,0,0,0],[0,1,0,0,0]]
+        self.forme_tous_4= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,1,1,0,0]]
+        self.forme_tous_5= [[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,1,0,0,0],[1,0,0,0,0]]
+        self.forme_tous_6= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,1,0,0,0],[1,1,1,0,0]]
+        self.forme_tous_7= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0],[0,1,1,0,0]]
+        self.forme_tous_8= [[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,1,0,0,0],[0,1,0,0,0]]
+        self.forme_tous_9= [[0,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]]
+        self.forme_tous_10=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0],[1,1,0,0,0]]
+        self.forme_tous_11=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0],[0,1,0,0,0]]
+        self.forme_tous_12=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0],[1,0,0,0,0]]
+        self.forme_tous_13=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0],[1,1,1,0,0]]
+        self.forme_tous_14=[[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,1,0,0,0]]
+        self.forme_tous_15=[[0,0,0,0,0],[0,0,0,0,0],[0,1,0,0,0],[1,1,0,0,0],[0,1,0,0,0]]
+        self.forme_tous_16=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,0,0],[0,1,0,0,0]]
+        self.forme_tous_17=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,1,1,0,0],[1,1,0,0,0]]
+        self.forme_tous_18=[[0,0,0,0,0],[0,0,0,0,0],[0,1,0,0,0],[1,1,0,0,0],[1,0,0,0,0]]
+        self.forme_tous_19=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,0]]
+        self.forme_tous_20=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0]]
+        self.forme_tous_ensemble.append(self.forme_tous_1)
+        self.forme_tous_ensemble.append(self.forme_tous_2)
+        self.forme_tous_ensemble.append(self.forme_tous_3)
+        self.forme_tous_ensemble.append(self.forme_tous_4)
+        self.forme_tous_ensemble.append(self.forme_tous_5)
+        self.forme_tous_ensemble.append(self.forme_tous_6)
+        self.forme_tous_ensemble.append(self.forme_tous_7)
+        self.forme_tous_ensemble.append(self.forme_tous_8)
+        self.forme_tous_ensemble.append(self.forme_tous_9)
+        self.forme_tous_ensemble.append(self.forme_tous_10)
+        self.forme_tous_ensemble.append(self.forme_tous_11)
+        self.forme_tous_ensemble.append(self.forme_tous_12)
+        self.forme_tous_ensemble.append(self.forme_tous_13)
+        self.forme_tous_ensemble.append(self.forme_tous_14)
+        self.forme_tous_ensemble.append(self.forme_tous_15)
+        self.forme_tous_ensemble.append(self.forme_tous_16)
+        self.forme_tous_ensemble.append(self.forme_tous_17)
+        self.forme_tous_ensemble.append(self.forme_tous_18)
+        self.forme_tous_ensemble.append(self.forme_tous_19)
+        self.forme_tous_ensemble.append(self.forme_tous_20)
+
+    
+    def formes_triangle(self):
+        self.forme_triangle_ensemble = []
+        self.forme_triangle_1= [[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,1,1,0,0],[0,0,1,0,0]]
+        self.forme_triangle_2= [[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0],[0,1,0,0,0],[0,1,1,0,0]]
+        self.forme_triangle_3= [[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0],[1,1,1,0,0],[1,0,0,0,0]]
+        self.forme_triangle_4= [[0,0,0,0,0],[0,0,0,0,0],[0,1,1,0,0],[0,1,0,0,0],[1,1,0,0,0]]
+        self.forme_triangle_5= [[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0],[0,1,0,0,0],[1,0,0,0,0]]
+        self.forme_triangle_6= [[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0]]
+        self.forme_triangle_7= [[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]]
+        self.forme_triangle_8= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,0,0]]
+        self.forme_triangle_9= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]]
+        self.forme_triangle_10=[[0,0,0,0,0],[0,0,0,0,0],[0,1,0,0,0],[1,1,1,0,0],[0,1,0,0,0]]
+        self.forme_triangle_11=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,0,0,0]]
+        self.forme_triangle_ensemble.append(self.forme_triangle_1)
+        self.forme_triangle_ensemble.append(self.forme_triangle_2)
+        self.forme_triangle_ensemble.append(self.forme_triangle_3)
+        self.forme_triangle_ensemble.append(self.forme_triangle_4)
+        self.forme_triangle_ensemble.append(self.forme_triangle_5)
+        self.forme_triangle_ensemble.append(self.forme_triangle_6)
+        self.forme_triangle_ensemble.append(self.forme_triangle_7)
+        self.forme_triangle_ensemble.append(self.forme_triangle_8)
+        self.forme_triangle_ensemble.append(self.forme_triangle_9)
+        self.forme_triangle_ensemble.append(self.forme_triangle_10)
+        self.forme_triangle_ensemble.append(self.forme_triangle_11)
+
+    
+    def formes_losange(self):
+        self.forme_losange_ensemble = []
+        self.forme_losange_1= [[0,0,0,0,0],[0,0,0,1,1],[0,0,1,1,0],[0,1,1,0,0],[1,1,0,0,0]]
+        self.forme_losange_2= [[0,0,0,0,0],[1,1,0,0,0],[0,1,1,0,0],[0,0,1,1,0],[0,0,0,1,1]]
+        self.forme_losange_3= [[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0]]
+        self.forme_losange_4= [[0,0,0,0,0],[1,1,1,1,0],[0,1,1,0,0],[0,1,1,0,0],[0,1,1,0,0]]
+        self.forme_losange_5= [[0,0,0,0,0],[1,0,0,1,0],[0,1,1,0,0],[0,1,1,0,0],[1,0,0,1,0]]
+        self.forme_losange_6= [[0,0,0,0,0],[1,1,1,1,0],[1,1,1,1,0],[1,1,1,1,0],[1,1,1,1,0]]
+        self.forme_losange_7= [[1,0,0,0,0],[1,1,0,0,0],[0,1,1,0,0],[0,0,1,1,0],[0,0,0,1,1]]
+        self.forme_losange_8= [[0,0,0,0,1],[0,0,0,1,1],[0,0,1,1,0],[0,1,1,0,0],[1,0,0,0,0]]
+        self.forme_losange_9= [[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]]
+        self.forme_losange_10=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1]]
+        self.forme_losange_11=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,1,1,0],[0,0,0,1,0]]
+        self.forme_losange_12=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,0],[0,0,0,1,0]]
+        self.forme_losange_13=[[0,0,0,0,0],[1,1,0,0,0],[0,1,0,0,0],[0,1,0,0,0],[0,1,0,0,0]]
+        self.forme_losange_14=[[0,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,1,0,0,0]]
+        self.forme_losange_ensemble.append(self.forme_losange_1)
+        self.forme_losange_ensemble.append(self.forme_losange_2)
+        self.forme_losange_ensemble.append(self.forme_losange_3)
+        self.forme_losange_ensemble.append(self.forme_losange_4)
+        self.forme_losange_ensemble.append(self.forme_losange_5)
+        self.forme_losange_ensemble.append(self.forme_losange_6)
+        self.forme_losange_ensemble.append(self.forme_losange_7)
+        self.forme_losange_ensemble.append(self.forme_losange_8)
+        self.forme_losange_ensemble.append(self.forme_losange_9)
+        self.forme_losange_ensemble.append(self.forme_losange_10)
+        self.forme_losange_ensemble.append(self.forme_losange_11)
+        self.forme_losange_ensemble.append(self.forme_losange_12)
+        self.forme_losange_ensemble.append(self.forme_losange_13)
+        self.forme_losange_ensemble.append(self.forme_losange_14)
+    
+    def formes_cercle(self):
+        self.forme_cercle_ensemble = []
+        self.forme_cercle_1= [[0,0,0,0,0],[1,1,1,1,0],[1,1,1,1,0],[1,1,1,1,0],[1,1,1,1,0]]
+        self.forme_cercle_2= [[0,0,0,0,0],[0,1,1,0,0],[1,1,1,1,0],[1,1,1,1,0],[0,1,1,0,0]]
+        self.forme_cercle_3= [[0,0,0,0,0],[1,0,0,1,0],[1,0,0,1,0],[1,0,0,1,0],[1,1,1,1,0]]
+        self.forme_cercle_4= [[0,0,0,0,0],[1,1,1,1,0],[0,0,0,1,0],[0,0,0,1,0],[0,0,0,1,0]]
+        self.forme_cercle_5= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,0],[1,1,1,0,0]]
+        self.forme_cercle_6= [[0,0,0,0,0],[1,1,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[1,1,1,0,0]]
+        self.forme_cercle_7= [[0,0,0,0,0],[1,1,0,0,0],[1,1,0,0,0],[1,1,0,0,0],[1,1,0,0,0]]
+        self.forme_cercle_8= [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,0],[1,1,1,1,0]]
+        self.forme_cercle_9= [[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0]]
+        self.forme_cercle_10=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1]]
+        self.forme_cercle_11=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[1,1,1,1,1],[1,0,0,0,1]]
+        self.forme_cercle_12=[[0,0,0,0,0],[1,0,0,0,0],[1,0,0,0,0],[1,0,0,1,0],[1,1,1,1,0]]
+        self.forme_cercle_ensemble.append(self.forme_cercle_1)
+        self.forme_cercle_ensemble.append(self.forme_cercle_2)
+        self.forme_cercle_ensemble.append(self.forme_cercle_3)
+        self.forme_cercle_ensemble.append(self.forme_cercle_4)
+        self.forme_cercle_ensemble.append(self.forme_cercle_5)
+        self.forme_cercle_ensemble.append(self.forme_cercle_6)
+        self.forme_cercle_ensemble.append(self.forme_cercle_7)
+        self.forme_cercle_ensemble.append(self.forme_cercle_8)
+        self.forme_cercle_ensemble.append(self.forme_cercle_9)
+        self.forme_cercle_ensemble.append(self.forme_cercle_10)
+        self.forme_cercle_ensemble.append(self.forme_cercle_11)
+        self.forme_cercle_ensemble.append(self.forme_cercle_12)
+
+        
+        
+
+    def test_erreur_figure(self):
+        test_affichage_figure = open("C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt","w")
+        figure = self.forme_triangle_ensemble
+        for i in range(len(figure)):
+            for j in range(len(figure[i])):
+                for k in range(len(figure[i][j])):
+                    if figure[i][j][k]%2==1:
+                        test_affichage_figure.write("- ")
+                    elif figure[i][j][k]%2==0:
+                        test_affichage_figure.write("0 ")
+                test_affichage_figure.write('\n')
+            test_affichage_figure.write('\n')
+
+
+
 
 class Regle_du_jeu:
     def __init__(self) -> None:
@@ -173,7 +324,13 @@ class Regle_du_jeu:
             print()
 
 
-
 if __name__ == "__main__":
-    Regle_du_jeu().affichage()
+    #Regle_du_jeu().affichage()
+
+    ff = Forme()
+    ff.formes_tous()
+    ff.formes_triangle()
+    ff.formes_losange()
+    ff.formes_cercle()
+    ff.test_erreur_figure()
     
