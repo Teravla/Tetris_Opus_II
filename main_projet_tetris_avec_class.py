@@ -167,7 +167,10 @@ class Regle_du_jeu:
                 Grille.lettre_maj(self)
                 Grille.figure_cercle(self, ' ')
                 Grille.read_grid(self)
-            
+        
+        if self.choice_user == 2: 
+            #Mettre les règle ici
+            print()
 
 
 
