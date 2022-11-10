@@ -16,7 +16,7 @@ programme = open("C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\
 
 class Grille:
     
-    def __init__(self):
+    def __init__(self): 
         self.grille = []
         self.lst_lettre_maj = []
         self.lst_lettre_min = []
@@ -25,8 +25,8 @@ class Grille:
     def create_grid(self, chiffre_donné, taille):
         grille_2 = []
         self.nb_colonne = taille
-        for i in range(self.nb_colonne):
-            for j in range(self.nb_colonne):
+        for i in range(int(int(self.nb_colonne))):
+            for j in range(int(int(self.nb_colonne))):
                 chiffre = str(chiffre_donné)+"  "
                 grille_2.append(chiffre)
             self.grille.append(grille_2)
@@ -37,37 +37,55 @@ class Grille:
         programme.write('    ')
         for k in range(len(self.lst_lettre_min)):
             programme.write(self.lst_lettre_min[k])
+            programme.write('  ')
         programme.write('\n   ')
-        programme.write(self.nb_colonne*3*'-'+'-')
+        programme.write(int(self.nb_colonne)*3*'-'+'-')
         programme.write('\n')
-        for i in range(self.nb_colonne):
+        for i in range(int(self.nb_colonne)):
             programme.write(self.lst_lettre_maj[i])
+            programme.write(" | ")
             for j in range(len(self.grille[i])):
                 programme.write(str(self.grille[i][j]))
-            programme.write("|\n")
+            programme.write("|")
+            programme.write("\n")
         programme.write('   ')
-        programme.write(self.nb_colonne*3*'-'+'-')
+        programme.write(int(self.nb_colonne)*3*'-'+'-')
+
+
+    def return_grille(self):
+        return self.grille
+    def return_majuscule(self):
+        return self.lst_lettre_maj
+    def return_minuscule(self):
+        return self.lst_lettre_min
+
+
     
     #Affichage des lettres
     def lettre_min(self):
-        lim = 97+self.nb_colonne
+        lim = 97+int(int(self.nb_colonne))
         for i in range(97, lim):
             lettre_min = chr(i)
-            lettre = lettre_min + '  '
+            lettre = lettre_min
             self.lst_lettre_min.append(lettre)
+        
+        return self.lst_lettre_min
     
     def lettre_maj(self):
-        lim = 65+self.nb_colonne
+        self.lst_lettre_minuscule = []
+        lim = 65+int(int(self.nb_colonne))
         for i in range(65, lim):
             lettre_maj = chr(i)
-            lettre = lettre_maj + ' | '
+            lettre = lettre_maj
             self.lst_lettre_maj.append(lettre)
+
+        return self.lst_lettre_maj
     #FIn Affichage des Lettres
     
     #Figures
     def figure_triangle(self):
-        min = self.nb_colonne//2
-        max = (self.nb_colonne//2)+1
+        min = int(self.nb_colonne)//2
+        max = (int(self.nb_colonne)//2)+1
         for i in range(max):
             for j in range(min, max):
                 self.grille[i][j] = '1  '
@@ -75,48 +93,48 @@ class Grille:
             max += 1
 
     def figure_losange(self):
-        min = self.nb_colonne//2
-        max = (self.nb_colonne//2)+1
+        min = int(self.nb_colonne)//2
+        max = (int(self.nb_colonne)//2)+1
         for i in range(max):
             for j in range(min, max):
                 self.grille[i][j] = '1  '
             min -= 1
             max += 1
         min = 0
-        max = self.nb_colonne
-        for i in range(self.nb_colonne//2,self.nb_colonne-1):
+        max = int(self.nb_colonne)
+        for i in range(int(self.nb_colonne)//2,int(self.nb_colonne)-1):
             for j in range(min, max):
                 self.grille[i][j] = '1  '
             min += 1
             max -= 1
-        self.grille[self.nb_colonne-1][self.nb_colonne//2] = '1  '
+        self.grille[int(self.nb_colonne)-1][int(self.nb_colonne)//2] = '1  '
     
     def figure_cercle(self, trou):
         #Haut Gauche
-        max = self.nb_colonne//4
+        max = int(self.nb_colonne)//4
         min = 0
         for i in range(max):
             for j in range(min, max):
                 self.grille[i][j] = str(trou)+'  '
             max-=1
         #Haut Droit
-        max = self.nb_colonne
-        min = int((3/4)*self.nb_colonne+1)
-        for i in range(self.nb_colonne//4):
+        max = int(self.nb_colonne)
+        min = int((3/4)*int(self.nb_colonne)+1)
+        for i in range(int(self.nb_colonne)//4):
             for j in range(min, max):
                 self.grille[i][j] = str(trou)+'  '
             min+=1
         #Bas Gauche
-        max = self.nb_colonne//4
+        max = int(self.nb_colonne)//4
         min = 1
-        for i in range(int((3/4)*self.nb_colonne+1),self.nb_colonne):
+        for i in range(int((3/4)*int(self.nb_colonne)+1),int(self.nb_colonne)):
             for j in range(min):
                 self.grille[i][j] = str(trou)+'  '
             min+=1
         #Bas Droit
-        max = self.nb_colonne
-        min = self.nb_colonne
-        for i in range(int((3/4)*self.nb_colonne+1),self.nb_colonne):
+        max = int(self.nb_colonne)
+        min = int(self.nb_colonne)
+        for i in range(int((3/4)*int(self.nb_colonne)+1),int(self.nb_colonne)):
             for j in range(min, max):
                 self.grille[i][j] = str(trou)+'  '
             min-=1
@@ -267,7 +285,7 @@ class Forme:
 
         
     def path_figure(self):
-        self.path_figure = input("Spécifier le chemin d'accès aux figures possible lors de votre jeu : ")
+        self.path_figure = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"#input("Spécifier le chemin d'accès aux figures possible lors de votre jeu : ")
 
     def affichage_figure_write(self, figure):
         #"C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
@@ -300,10 +318,14 @@ class Forme:
 class Placement_figure:
     def __init__(self) -> None:
         Forme.__init__(self)
+        Grille.__init__(self)
 
+
+    #Choix de la politique de suggestion
     def blocs_alea(self,figure_1,figure_2,nb_blocs_afficher):
         self.lst_alea=[]
         self.lst_affichage_forme=[]
+        self.lst_forme_reutilisable = []
 
         for i in range(len(figure_1)):
             self.lst_alea.append(figure_1[i])
@@ -320,6 +342,7 @@ class Placement_figure:
                 nb_alea = rd.randint(0,len(self.lst_alea)-1)
                 
                 self.lst_affichage_forme.append(self.lst_alea[nb_alea])
+                self.lst_forme_reutilisable.append(self.lst_alea[nb_alea])
                 #Suppression pour éviter la redondance
                 del self.lst_alea[nb_alea]
                 
@@ -335,12 +358,94 @@ class Placement_figure:
                 print('\n')
                 del self.lst_affichage_forme[i]
             print('\n')
+        
+        return self.lst_forme_reutilisable
     
     def blocs_tous(self,figure_1,figure_2):
         Forme.path_figure(self)
         Forme.affichage_figure_write(self,figure_1)
         Forme.affichage_figure_append(self,figure_2)
         print("\nLes figures possibles sont dans le fichier que vous avez spécifiez\n")
+    #FIN# Choix de la politique de suggestion
+
+    #Placement du bloc
+    def placement_bloc_alea(self):
+
+        self.placement_possible = False
+        self.placement_impossible = False
+
+        print("\nChoississez un bloc")
+        choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut :")
+        while choice_user_placement_bloc_alea<'1' or choice_user_placement_bloc_alea>'3':
+            choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut :")
+        
+        if choice_user_placement_bloc_alea == '1':
+            forme = self.lst_forme_reutilisable[0]
+        if choice_user_placement_bloc_alea == '2':
+            forme = self.lst_forme_reutilisable[1]
+        if choice_user_placement_bloc_alea == '3':
+            forme = self.lst_forme_reutilisable[2]
+
+        print("choisir les coordonnées pour poser votre bloc :")
+        print(Grille.lettre_min(self))
+        print(Grille.lettre_maj(self))
+        self.cordonnees_minuscule = str(input("Première coordonnée : "))
+        while self.cordonnees_minuscule not in Grille.lettre_min(self):
+            self.cordonnees_minuscule = str(input("Première coordonnée : "))
+        self.cordonnees_majuscule = str(input("Seconde coordonnée : "))
+        while self.cordonnees_majuscule not in Grille.lettre_maj(self):
+            self.cordonnees_majuscule = str(input("Seconde coordonnée : "))
+
+        grille = Grille.return_grille(self)
+        lst_min = Grille.return_minuscule(self)
+        lst_maj = Grille.return_majuscule(self)
+        index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-4
+        index_lst_min = lst_min.index(self.cordonnees_minuscule)
+        print(index_lst_min,index_lst_maj,end="\n\n\n")
+
+        for i in range(len(forme)):
+            for j in range(len(forme[i])):
+                print(forme[i][j],end="")
+            print('\n')
+        
+        for i in range(5):
+            for j in range(5):
+                #print(i,j)
+                print(grille[index_lst_maj+i][index_lst_min+j],end="")
+                #print(index_lst_maj-i,index_lst_min+j,end="")
+            print('\n')
+
+
+        for i in range(5):
+            for j in range(5):
+                print(forme[j][i],",",grille[index_lst_maj+i][index_lst_min+j])
+                
+                if forme[i][j] == 1 and grille[index_lst_maj+i][index_lst_min+j] == '1  ':
+                    print("gooood pour 1 1 ")
+                    self.placement_possible = True
+                    print(self.placement_possible,self.placement_impossible)
+                elif forme[i][j] == 1 and grille[index_lst_maj+i][index_lst_min+j] == '.  ':
+                    print("gooood pour 1 . ")
+                    self.placement_impossible = True
+                    print(self.placement_possible,self.placement_impossible)
+                elif forme[i][j] == 0 and grille[index_lst_maj+i][index_lst_min+j] == '1  ':
+                    print("gooood pour 0 1 ")
+                    self.placement_possible = True
+                    print(self.placement_possible,self.placement_impossible)
+                elif forme[i][j] == 0 and grille[index_lst_maj+i][index_lst_min+j] == '.  ':
+                    print("gooood pour 0 . ")
+                    self.placement_possible = True
+                    print(self.placement_possible,self.placement_impossible)
+            print('\n')
+        
+        if self.placement_impossible == True or self.placement_possible == False:
+            print("Vous ne pouvez pas poser ce bloc ici")
+        elif self.placement_impossible == False and self.placement_possible == True:
+            print("Vous pouvez placer ce bloc ici")
+        
+        
+
+
 
     
 
@@ -355,67 +460,71 @@ class Regle_du_jeu:
     def affichage(self):
         print("1 - Commmencer à jouer")
         print("2 - Afficher les règles du jeu")
-        self.choice_user = int(input("Faire votre choix (1, 2) : "))
-        while self.choice_user<1 or self.choice_user>2:
-            self.choice_user = int(input("Faire votre choix (1, 2) : "))
+        self.choice_user = input("Faire votre choix (1, 2) : ")
+        while self.choice_user<'1' or self.choice_user>'2':
+            self.choice_user = input("Faire votre choix (1, 2) : ")
 
-        if self.choice_user == 1:
+        if self.choice_user == '1':
         
-            self.nb_colonne = int(input("\nDonner le taille de votre tableau (21, 23 ou 25) : "))
-            while (self.nb_colonne!=21 and self.nb_colonne!=23) and self.nb_colonne!=25:
-                self.nb_colonne = int(input("Donner le taille de votre tableau (21, 23 ou 25) : "))
+            self.nb_colonne = input("\nDonner le taille de votre tableau (21, 23 ou 25) : ")
+            while (self.nb_colonne!='21' and self.nb_colonne!='23') and self.nb_colonne!='25':
+                self.nb_colonne = input("Donner le taille de votre tableau (21, 23 ou 25) : ")
         
 
             print("\nChoississez votre plateau de jeu :")
             print("1 - Triangle")
             print("2 - Losange")
             print("3 - Cercle")
-            self.choice_user_plateau = int(input("Faire votre choix (1, 2, 3) : "))
-            while self.choice_user_plateau<1 or self.choice_user_plateau>3:
-                self.choice_user_plateau = int(input("Faire votre choix (1, 2, 3) : "))
+            self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
+            while self.choice_user_plateau<'1' or self.choice_user_plateau>'3':
+                self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
             
-            if self.choice_user_plateau == 1: #Triangle
-                Grille.create_grid(self, ' ', self.nb_colonne)
+            if self.choice_user_plateau == '1': #Triangle
+                Grille.create_grid(self, '0', int(self.nb_colonne))
                 Grille.lettre_min(self)
                 Grille.lettre_maj(self)
                 Grille.figure_triangle(self)
                 Grille.read_grid(self)
                 self.politique_suggestion_blocs(Forme.formes_triangle(self),Forme.formes_tous(self))
+                Placement_figure.placement_bloc_alea(self)
 
-            if self.choice_user_plateau == 2: #Losange
-                Grille.create_grid(self, ' ', self.nb_colonne)
+            if self.choice_user_plateau == '2': #Losange
+                Grille.create_grid(self, '.', int(self.nb_colonne))
                 Grille.lettre_min(self)
                 Grille.lettre_maj(self)
                 Grille.figure_losange(self)
                 Grille.read_grid(self)
                 self.politique_suggestion_blocs(Forme.formes_losange(self),Forme.formes_tous(self))
+                Placement_figure.placement_bloc_alea(self)
 
-            if self.choice_user_plateau == 3: #Cercle
-                Grille.create_grid(self, 1, self.nb_colonne)
+            if self.choice_user_plateau == '3': #Cercle
+                Grille.create_grid(self, 1, int(self.nb_colonne))
                 Grille.lettre_min(self)
                 Grille.lettre_maj(self)
-                Grille.figure_cercle(self, ' ')
+                Grille.figure_cercle(self, '0')
                 Grille.read_grid(self)
                 self.politique_suggestion_blocs(Forme.formes_cercle(self),Forme.formes_tous(self))
+                Placement_figure.placement_bloc_alea(self)
         
+        if self.choice_user == '2': 
+            #Mettre les règle ici
+            print()
+
+    
     def politique_suggestion_blocs(self,figure_1_suggestion,figure_2_suggestion):
         print("\nVous avez le choix entre deux suggéstion de blocs :")
         print("1 - Affichage de l'ensemble des blocks du jeu")
         print("2 - Affichage de 3 blocs aléatoires")
-        self.choice_user_politique_suggestion = int(input("Faite votre choix : "))
-        while self.choice_user_politique_suggestion<1 or self.choice_user_politique_suggestion>2:
-            self.choice_user_politique_suggestion = int(input("Faite votre choix : "))
+        self.choice_user_politique_suggestion = input("Faite votre choix : ")
+        while self.choice_user_politique_suggestion<'1' or self.choice_user_politique_suggestion>'2':
+            self.choice_user_politique_suggestion = input("Faite votre choix : ")
         
-        if self.choice_user_politique_suggestion == 1:
+        if self.choice_user_politique_suggestion == '1':
             Placement_figure.blocs_tous(self,figure_1_suggestion, figure_2_suggestion)
-        if self.choice_user_politique_suggestion == 2:
-            #Changer le 3 par un autre nombre pour avoir plus de blocs choisis aléatoirement
+        if self.choice_user_politique_suggestion == '2':
             Placement_figure.blocs_alea(self,figure_1_suggestion,figure_2_suggestion,3)
-
-
-        if self.choice_user == 2: 
-            #Mettre les règle ici
-            print()
+    
+    
 
 
 if __name__ == "__main__":
