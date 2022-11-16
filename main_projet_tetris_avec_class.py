@@ -690,6 +690,6 @@ class Regle_du_jeu:
 
 
 if __name__ == "__main__":
-    Regle_du_jeu().affichage()
+    Regle_du_jeu().affichage("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant es coordonnées de l’endroit où il veut les insérer. )
     
     
