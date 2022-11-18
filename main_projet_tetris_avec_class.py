@@ -52,7 +52,7 @@ class Grille:
             programme.write('   ')
             programme.write(int(self.nb_colonne)*3*'-'+'-')
 
-
+    #Ces fonctions permettent d'afficher les variables dans d'autres class
     def return_grille(self):
         return self.grille
     def return_majuscule(self):
@@ -140,7 +140,6 @@ class Grille:
                 self.grille[i][j] = str(trou)+'  '
             min-=1
     #Fin Figures
-
 
 
 class Forme:
@@ -690,6 +689,6 @@ class Regle_du_jeu:
 
 
 if __name__ == "__main__":
-    Regle_du_jeu().affichage("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant es coordonnées de l’endroit où il veut les insérer." )
+    Regle_du_jeu().affichage()
     
     
