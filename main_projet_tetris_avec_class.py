@@ -668,8 +668,7 @@ class Regle_du_jeu:
             
         
         if self.choice_user == 2: 
-            #Mettre les règle ici
-            print()
+            print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant les coordonnées de l’endroit où il veut les insérer.")
 
     
     def politique_suggestion_blocs(self,figure_1_suggestion,figure_2_suggestion):
