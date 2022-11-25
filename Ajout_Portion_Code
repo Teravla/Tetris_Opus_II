@@ -10,3 +10,7 @@ def placement_figures_grilles_alea(self):
             for i in range(5):
                 for j in range(5):
                     grille[index_lst_maj + i][index_lst_min + j] = self.forme_alea[i][j]
+                    
+                    
+forme_alea_str = str(self.forme_alea[i][j])
+                    grille[index_lst_maj + i][index_lst_min + j] = forme_alea_str + '  '
