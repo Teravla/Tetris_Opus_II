@@ -115,3 +115,99 @@ class Regle_du_jeu:
 if __name__ == "__main__":
     Regle_du_jeu().affichage()
     
+ 
+_________________________________________________________________
+
+class Regle_du_jeu:
+    def __init__(self):
+        Grille.__init__(self)
+        Forme.__init__(self)
+        Placement_figure.__init__(self)
+        self.nb_colonne = 0
+
+    def affichage(self):
+        print("1 - Commmencer à jouer")
+        print("2 - Afficher les règles du jeu")
+        self.choice_user = input("Faire votre choix (1, 2) : ")
+        while self.choice_user < '1' or self.choice_user > '2':
+            self.choice_user = input("Faire votre choix (1, 2) : ")
+
+
+        if self.choice_user == '1':
+
+            self.nb_colonne = input("\nDonner le taille de votre tableau (21, 23 ou 25) : ")
+            while (self.nb_colonne != '21' and self.nb_colonne != '23') and self.nb_colonne != '25':
+                self.nb_colonne = input("Donner le taille de votre tableau (21, 23 ou 25) : ")
+
+            print("\nChoississez votre plateau de jeu :")
+            print("1 - Triangle")
+            print("2 - Losange")
+            print("3 - Cercle")
+            self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
+            while self.choice_user_plateau < '1' or self.choice_user_plateau > '3':
+                self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
+
+            Grille.lettre_min(self)
+            Grille.lettre_maj(self)
+
+            if self.choice_user_plateau == '1':  # Triangle
+                Grille.create_grid(self, '0', int(self.nb_colonne))
+                Grille.figure_triangle(self)
+                self.politique_suggestion_blocs()
+                Grille.read_grid(self)
+                while True:
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_triangle(self))
+                    Placement_figure.placement_figures_grilles_alea(self)
+                    Grille.read_grid(self)
+                    #self.{nom de la fonction qui vérifie si les lignes/les colonnes sont des 0 ou des 2 et remplace les 2 par des 1. La fonction rajoute des point à l'utilisateur}()
+                
+
+            if self.choice_user_plateau == '2':  # Losange
+                Grille.create_grid(self, '.', int(self.nb_colonne))
+                Grille.figure_losange(self)
+                self.politique_suggestion_blocs()
+                Grille.read_grid(self)
+                while True:
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_losange(self))
+                    Placement_figure.placement_figures_grilles_alea(self)
+                    Grille.read_grid(self)
+                    #self.{nom de la fonction qui vérifie si les lignes/les colonnes sont des 0 ou des 2 et remplace les 2 par des 1. La fonction rajoute des point à l'utilisateur}()
+
+            if self.choice_user_plateau == '3':  # Cercle
+                Grille.create_grid(self, '1', int(self.nb_colonne))
+                Grille.figure_cercle(self,'.')
+                self.politique_suggestion_blocs()
+                Grille.read_grid(self)
+                while True:
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_cercle(self))
+                    Placement_figure.placement_figures_grilles_alea(self)
+                    Grille.read_grid(self)
+                    #self.{nom de la fonction qui vérifie si les lignes/les colonnes sont des 0 ou des 2 et remplace les 2 par des 1. La fonction rajoute des point à l'utilisateur}()
+
+        if self.choice_user == '2':
+            # Mettre les règle ici
+            print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant les coordonnées de l’endroit où il veut les insérer.")
+
+    def politique_suggestion_blocs(self):
+        print("\nVous avez le choix entre deux suggestion de blocs :")
+        print("1 - Affichage de l'ensemble des blocs du jeu")
+        print("2 - Affichage de 3 blocs aléatoires")
+        self.choice_user_politique_suggestion = input("Faite votre choix : ")
+        while self.choice_user_politique_suggestion < '1' or self.choice_user_politique_suggestion > '2':
+            self.choice_user_politique_suggestion = input("Faite votre choix : ")
+        
+    def politique_suggestion_blocs_2(self, figure_1_suggestion, figure_2_suggestion):
+        if self.choice_user_politique_suggestion == '1':
+            Placement_figure.placement_bloc_tous(self, figure_1_suggestion, figure_2_suggestion)
+        if self.choice_user_politique_suggestion == '2':
+            Placement_figure.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3)
+        
+    #def {nom de la fonction}(self):
+        #code
+
+
+
+if __name__ == "__main__":
+    Regle_du_jeu().affichage()
+    
+
