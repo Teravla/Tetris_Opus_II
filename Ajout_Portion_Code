@@ -1,0 +1,12 @@
+def placement_figures_grilles_alea(self):
+        grille = Grille.return_grille(self)
+
+        lst_min = Grille.return_minuscule(self)
+        lst_maj = Grille.return_majuscule(self)
+        index_lst_maj = lst_maj.index(self.cordonnees_majuscule) - 4
+        index_lst_min = lst_min.index(self.cordonnees_minuscule)
+
+        if self.placement_final_alea == True:
+            for i in range(5):
+                for j in range(5):
+                    grille[index_lst_maj + i][index_lst_min + j] = self.forme_alea[i][j]
