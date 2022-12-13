@@ -4,13 +4,6 @@ import random as rd
 Programme Tetris L1 BN EFREI
 '''
 
-
-# path = input("Spécifier le chemin d'accès à la figure: ")
-
-# programme = open("C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\programme.txt", "w")
-# "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\programme.txt"
-
-
 class Grille:
 
     def __init__(self):
@@ -29,10 +22,10 @@ class Grille:
             grille_2 = []
         return self.grille
 
-    def read_grid(self):
-        with open("C:\\Users\\20220848\\Documents\\Projet_Python\\plateau.txt", "w") as programme:
+    def read_grid(self, path):
+        with open(path, "w") as programme:
             programme.write('    ')
-            for k in range(len(self.lst_lettre_min)):
+            for k in range(self.nb_colonne):
                 programme.write(self.lst_lettre_min[k])
                 programme.write('  ')
             programme.write('\n   ')
@@ -69,7 +62,6 @@ class Grille:
         return self.lst_lettre_min
 
     def lettre_maj(self):
-        self.lst_lettre_minuscule = []
         lim = 65 + int(int(self.nb_colonne))
         for i in range(65, lim):
             lettre_maj = chr(i)
@@ -86,7 +78,7 @@ class Grille:
         max = (int(self.nb_colonne) // 2) + 1
         for i in range(max):
             for j in range(min, max):
-                self.grille[i][j] = '1  '
+                self.grille[i][j] = '.  '
             min -= 1
             max += 1
 
@@ -95,17 +87,17 @@ class Grille:
         max = (int(self.nb_colonne) // 2) + 1
         for i in range(max):
             for j in range(min, max):
-                self.grille[i][j] = '1  '
+                self.grille[i][j] = '.  '
             min -= 1
             max += 1
         min = 0
         max = int(self.nb_colonne)
         for i in range(int(self.nb_colonne) // 2, int(self.nb_colonne) - 1):
             for j in range(min, max):
-                self.grille[i][j] = '1  '
+                self.grille[i][j] = '.  '
             min += 1
             max -= 1
-        self.grille[int(self.nb_colonne) - 1][int(self.nb_colonne) // 2] = '1  '
+        self.grille[int(self.nb_colonne) - 1][int(self.nb_colonne) // 2] = '.  '
 
     def figure_cercle(self, trou):
         # Haut Gauche
@@ -279,7 +271,7 @@ class Forme:
         return self.forme_cercle_ensemble
 
     def path_figure(self):
-        self.path_figure = "C:\\Users\\20220848\\Documents\\Projet_Python\\figures_tous.txt"
+        self.path_figure = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
 
     def affichage_figure_write(self, figure):
         # "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
@@ -321,6 +313,7 @@ class Placement_figure:
     def __init__(self) -> None:
         Forme.__init__(self)
         Grille.__init__(self)
+        self.placement_bloc_tous = False
         
 
     # Choix de la politique de suggestion
@@ -334,32 +327,31 @@ class Placement_figure:
         for i in range(len(figure_2)):
             self.lst_alea.append(figure_2[i])
 
-        # CONDITION A CHANGER#
-        for i in range(1):
+        
 
-            print("\nVoici les choix que vous avez pour 'Affichage de 3 blocs aléatoire' : \n")
+        print("\nVoici les choix que vous avez pour 'Affichage de 3 blocs aléatoire' : \n")
 
-            for i in range(nb_blocs_afficher):
-                # Création du nombre aléatoire
-                nb_alea = rd.randint(0, len(self.lst_alea) - 1)
+        for i in range(nb_blocs_afficher):
+            # Création du nombre aléatoire
+            nb_alea = rd.randint(0, len(self.lst_alea) - 1)
 
-                self.lst_affichage_forme_alea.append(self.lst_alea[nb_alea])
-                self.lst_forme_reutilisable_alea.append(self.lst_alea[nb_alea])
-                # Suppression pour éviter la redondance
-                del self.lst_alea[nb_alea]
+            self.lst_affichage_forme_alea.append(self.lst_alea[nb_alea])
+            self.lst_forme_reutilisable_alea.append(self.lst_alea[nb_alea])
+            # Suppression pour éviter la redondance
+            del self.lst_alea[nb_alea]
 
-                # Affichage de la forme
-                for i in range(len(self.lst_affichage_forme_alea)):
-                    for j in range(len(self.lst_affichage_forme_alea[i])):
-                        for k in range(len(self.lst_affichage_forme_alea[i][j])):
-                            if self.lst_affichage_forme_alea[i][j][k] % 2 == 1:
-                                print("-", end=" ")
-                            elif self.lst_affichage_forme_alea[i][j][k] % 2 == 0:
-                                print("0", end=" ")
-                        print('\n')
-                print('\n')
-                del self.lst_affichage_forme_alea[i]
+            # Affichage de la forme
+            for i in range(len(self.lst_affichage_forme_alea)):
+                for j in range(len(self.lst_affichage_forme_alea[i])):
+                    for k in range(len(self.lst_affichage_forme_alea[i][j])):
+                        if self.lst_affichage_forme_alea[i][j][k] % 2 == 1:
+                            print("-", end=" ")
+                        elif self.lst_affichage_forme_alea[i][j][k] % 2 == 0:
+                            print("0", end=" ")
+                    print('\n')
             print('\n')
+            del self.lst_affichage_forme_alea[i]
+        print('\n')
 
         return self.lst_forme_reutilisable_alea
 
@@ -386,12 +378,14 @@ class Placement_figure:
             while choice_user_placement_bloc_alea < '1' or choice_user_placement_bloc_alea > '3':
                 choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut :")
 
+
+
             if choice_user_placement_bloc_alea == '1':
-                forme = self.lst_forme_reutilisable_alea[0]
+                self.forme_alea = self.lst_forme_reutilisable_alea[0]
             if choice_user_placement_bloc_alea == '2':
-                forme = self.lst_forme_reutilisable_alea[1]
+                self.forme_alea = self.lst_forme_reutilisable_alea[1]
             if choice_user_placement_bloc_alea == '3':
-                forme = self.lst_forme_reutilisable_alea[2]
+                self.forme_alea = self.lst_forme_reutilisable_alea[2]
 
             print("choisir les coordonnées pour poser votre bloc :")
             self.cordonnees_minuscule = str(input("Première coordonnée : "))
@@ -407,16 +401,38 @@ class Placement_figure:
             index_lst_maj = lst_maj.index(self.cordonnees_majuscule) - 4
             index_lst_min = lst_min.index(self.cordonnees_minuscule)
 
-            for i in range(5):
-                for j in range(5):
-                    if forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '1  ':
-                        self.placement_possible_alea = True
-                    elif forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
-                        self.placement_impossible_alea = True
-                    elif forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '1  ':
-                        self.placement_possible_alea = True
-                    elif forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
-                        self.placement_possible_alea = True
+            
+            Placement_figure.reduction_grille_xy(self,self.forme_alea)
+
+            self.lst_inter_xy = self.lst_inter_x
+            
+            try:
+                for i in range(len(self.lst_inter_xy)):
+                    for j in range(len(self.lst_inter_xy[i])):
+                        #TEST -- print("\n",self.lst_inter_xy[i])
+                        if self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
+                            self.placement_possible_alea = True
+                            #print("A")
+                        elif self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '2  ':
+                            self.placement_impossible_alea = True
+                            #print("B")
+                        elif self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '   ':
+                            self.placement_impossible_alea = True
+                            #print("C")
+                        elif self.forme_alea[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
+                            self.placement_possible_alea = True
+                            #print("D")
+                        elif self.forme_alea[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '2  ':
+                            self.placement_possible_alea = True
+                            #print("E")
+                        #TEST -- print(self.placement_possible_alea, self.placement_impossible_alea)
+            except:
+                print("Vous ne passerez pas")
+                
+            print("\n\n")
+
+            
+            
 
             if self.placement_impossible_alea == True or self.placement_possible_alea == False:
                 print("Vous ne pouvez pas poser ce bloc ici")
@@ -424,8 +440,76 @@ class Placement_figure:
             elif self.placement_impossible_alea == False and self.placement_possible_alea == True:
                 print("Vous pouvez placer ce bloc ici")
                 self.placement_final_alea = True
+            
 
-            print(self.placement_final_alea)
+    def reduction_grille_xy(self,forme):
+        self.lst_inter_x = []
+        index_y = 5
+        index_x = 0
+        repeat_x = 1
+        accept = False
+        accept_none = False
+
+        self.lst_inter_x = forme
+    
+        #Supprimer colonne
+        for i in range(5):
+            for j in range(index_y):
+
+                if self.lst_inter_x[4][index_y-1] == 1: 
+                    accept_none = True
+                    break
+                if self.lst_inter_x[3][index_y-1] == 1: 
+                    accept_none = True
+                    break
+                if self.lst_inter_x[2][index_y-1] == 1: 
+                    accept_none = True
+                    break
+                else: 
+                    if self.lst_inter_x[i][index_y-1] == 1:
+                        accept_none = True
+                        break
+                    elif self.lst_inter_x[i][index_y-1] == 0:
+                        accept = True
+                    else:
+                        accept = False
+                        accept_none = True
+                
+            #TEST -- print("test :", accept, accept_none)
+            
+            if accept == True and accept_none == False:
+                for i in range(len(self.lst_inter_x)):
+                    del self.lst_inter_x[i][-1]
+            
+            index_y -= 1
+            accept = False
+        accept_none = False
+        
+        #Supprimer ligne
+        for i in range(len(self.lst_inter_x)):
+            if 1 in self.lst_inter_x[i]:
+                repeat_x+=1
+        
+        #TEST --print(len(self.lst_inter_x), repeat_x)
+
+        for i in range(len(self.lst_inter_x)-repeat_x):
+            if 1 not in self.lst_inter_x[i]:
+                del(self.lst_inter_x[index_x])
+                index_x += 1
+            
+        #TEST --print(repeat_x != 1)
+        if repeat_x != 1 and repeat_x <= 5:
+            del(self.lst_inter_x[0])
+
+
+        #TEST --print("final : ", self.lst_inter_x)
+        
+        #TEST -- for i in range(len(self.lst_inter_x)):
+            #TEST -- print(self.lst_inter_x[i])
+
+        return self.lst_inter_x
+
+
 
     def placement_bloc_tous(self, figure_1, figure_2):
 
@@ -446,7 +530,7 @@ class Placement_figure:
                 choice_user_placement_bloc_tous = input("En partant du haut : ")
 
                 if choice_user_placement_bloc_tous == '1':
-                    self.forme = Forme.return_lst_forme_reutilisable(self)[0][0]
+                    self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][0]
                     self.erreur_tous = False
                 elif choice_user_placement_bloc_tous == '2':
                     self.forme = Forme.return_lst_forme_reutilisable(self)[0][1]
@@ -573,13 +657,15 @@ class Placement_figure:
             index_lst_maj = lst_maj.index(self.cordonnees_majuscule) - 4
             index_lst_min = lst_min.index(self.cordonnees_minuscule)
 
-            for i in range(5):
-                for j in range(5):
-                    if self.forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '1  ':
+            for i in range(self.lst_inter_xy):
+                for j in range(self.lst_inter_xy):
+                    if self.forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
                         self.placement_possible_tous = True
-                    elif self.forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
+                    elif self.forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '2  ':
                         self.placement_impossible_tous = True
-                    elif self.forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '1  ':
+                    elif self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '   ':
+                        self.placement_impossible_alea = True
+                    elif self.forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
                         self.placement_possible_tous = True
                     elif self.forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
                         self.placement_possible_tous = True
@@ -591,20 +677,63 @@ class Placement_figure:
                 print("Vous pouvez placer ce bloc ici")
                 self.placement_final_tous = True
 
-            print(self.placement_final_tous)
+            return self.placement_final_tous
     
-    def placement_figures_grilles(self):
+    def placement_figures_grilles_alea(self):
         grille = Grille.return_grille(self)
 
         lst_min = Grille.return_minuscule(self)
         lst_maj = Grille.return_majuscule(self)
-        index_lst_maj = lst_maj.index(self.cordonnees_majuscule) - 4
+        index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-len(self.lst_inter_xy)+1
         index_lst_min = lst_min.index(self.cordonnees_minuscule)
 
-        if self.placement_final_tous == True:
-            for i in range(5):
-                for j in range(5):
-                    grille[index_lst_maj + i][index_lst_min + j] = self.forme[i][j] 
+        for k in range(len(self.forme_alea)):
+            print(self.forme_alea[k])
+
+        if self.placement_final_alea == True:
+            for i in range(len(self.lst_inter_xy)):
+                for j in range(len(self.lst_inter_xy[i])):
+                    
+                    indent = i + len(self.lst_inter_xy)
+                    extend = i
+
+                    if Regle_du_jeu.return_choice_user_plateau(self) == '1' or Regle_du_jeu.return_choice_user_plateau(self) == '2':
+
+                        if grille[index_lst_maj + indent][index_lst_min + j] == '2  ' and self.forme_alea[extend][j] == 1:
+                            print("Vous ne pouvez pas poser ce bloc ici")
+
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 0:
+                            forme_alea_str = '.'
+
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '   ' and self.forme_alea[extend][j] == 0:
+                            forme_alea_str = ' '
+                        
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 1:
+                            forme_alea_str = '2'
+                        
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '2  ' and self.forme_alea[extend][j] == 0:
+                            forme_alea_str = '2'
+
+                        grille[index_lst_maj + i][index_lst_min + j] = forme_alea_str + '  '
+                    
+                    elif Regle_du_jeu.return_choice_user_plateau(self) == '3':
+
+                        if grille[index_lst_maj + i][index_lst_min + j] == '2  ' and self.forme_alea[i][j] == 1:
+                            print("Vous ne pouvez pas poser ce bloc ici")
+
+                        elif grille[index_lst_maj + i][index_lst_min + j] == '.  ' and self.forme_alea[i][j] == 0:
+                            forme_alea_str = '.'
+
+                        elif grille[index_lst_maj + i][index_lst_min + j] == '   ' and self.forme_alea[i][j] == 0:
+                            forme_alea_str = ' '
+                        
+                        elif grille[index_lst_maj + i][index_lst_min + j] == '.  ' and self.forme_alea[i][j] == 1:
+                            forme_alea_str = '2'
+                        
+                        elif grille[index_lst_maj + i][index_lst_min + j] == '2  ' and self.forme_alea[i][j] == 0:
+                            forme_alea_str = '2'
+
+                        grille[index_lst_maj + i][index_lst_min + j] = forme_alea_str + '  '
                     
 
 
@@ -618,11 +747,18 @@ class Regle_du_jeu:
     def affichage(self):
         print("1 - Commmencer à jouer")
         print("2 - Afficher les règles du jeu")
-        self.choice_user = int(input("Faire votre choix (1, 2) : "))
-        while self.choice_user < 1 or self.choice_user > 2:
-            self.choice_user = int(input("Faire votre choix (1, 2) : "))
 
-        if self.choice_user == 1:
+        #Choix chemin accès
+        print("Choississez le chemin d'accès vers votre figure : ")
+        #self.path = input("")
+        self.path = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\programme.txt"
+
+        self.choice_user = input("Faire votre choix (1, 2) : ")
+        while self.choice_user < '1' or self.choice_user > '2':
+            self.choice_user = input("Faire votre choix (1, 2) : ")
+
+
+        if self.choice_user == '1':
 
             self.nb_colonne = input("\nDonner le taille de votre tableau (21, 23 ou 25) : ")
             while (self.nb_colonne != '21' and self.nb_colonne != '23') and self.nb_colonne != '25':
@@ -640,45 +776,63 @@ class Regle_du_jeu:
             Grille.lettre_maj(self)
 
             if self.choice_user_plateau == '1':  # Triangle
-                Grille.create_grid(self, '0', int(self.nb_colonne))
+                Grille.create_grid(self, ' ', int(self.nb_colonne))
                 Grille.figure_triangle(self)
-                Grille.read_grid(self)
-                self.politique_suggestion_blocs(Forme.formes_tous(self), Forme.formes_triangle(self))
-                Placement_figure.placement_figures_grilles(self)
-                Grille.read_grid(self)
+                self.politique_suggestion_blocs()
+                Grille.read_grid(self, self.path)
+                while True:
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_triangle(self))
+                    Placement_figure.placement_figures_grilles_alea(self)
+                    Grille.read_grid(self, self.path)
+                    
+                    
+                
 
             if self.choice_user_plateau == '2':  # Losange
-                Grille.create_grid(self, '.', int(self.nb_colonne))
+                Grille.create_grid(self, ' ', int(self.nb_colonne))
                 Grille.figure_losange(self)
-                Grille.read_grid(self)
-                self.politique_suggestion_blocs(Forme.formes_tous(self), Forme.formes_losange(self))
-                Placement_figure.placement_figures_grilles(self)
-                Grille.read_grid(self)
+                self.politique_suggestion_blocs()
+                Grille.read_grid(self, self.path)
+                while True:
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_losange(self))
+                    Placement_figure.placement_figures_grilles_alea(self)
+                    Grille.read_grid(self, self.path)
+                    
+                    
 
             if self.choice_user_plateau == '3':  # Cercle
-                Grille.create_grid(self, '1', int(self.nb_colonne))
-                Grille.figure_cercle(self,'.')
-                Grille.read_grid(self)
-                self.politique_suggestion_blocs(Forme.formes_tous(self), Forme.formes_cercle(self))
-                Placement_figure.placement_figures_grilles(self)
-                Grille.read_grid(self)
-
-        if self.choice_user == 2:
+                Grille.create_grid(self, '.', int(self.nb_colonne))
+                Grille.figure_cercle(self,' ')
+                self.politique_suggestion_blocs()
+                Grille.read_grid(self, self.path)
+                while True:
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_cercle(self))
+                    Placement_figure.placement_figures_grilles_alea(self)
+                    Grille.read_grid(self, self.path)
+                   
+                   
+        if self.choice_user == '2':
             # Mettre les règle ici
             print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant les coordonnées de l’endroit où il veut les insérer.")
+            Regle_du_jeu.affichage(self)
 
-    def politique_suggestion_blocs(self, figure_1_suggestion, figure_2_suggestion):
+    def politique_suggestion_blocs(self):
         print("\nVous avez le choix entre deux suggestion de blocs :")
         print("1 - Affichage de l'ensemble des blocs du jeu")
         print("2 - Affichage de 3 blocs aléatoires")
         self.choice_user_politique_suggestion = input("Faite votre choix : ")
         while self.choice_user_politique_suggestion < '1' or self.choice_user_politique_suggestion > '2':
             self.choice_user_politique_suggestion = input("Faite votre choix : ")
-
+        
+    def politique_suggestion_blocs_2(self, figure_1_suggestion, figure_2_suggestion):
         if self.choice_user_politique_suggestion == '1':
             Placement_figure.placement_bloc_tous(self, figure_1_suggestion, figure_2_suggestion)
         if self.choice_user_politique_suggestion == '2':
             Placement_figure.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3)
+        
+    def return_choice_user_plateau(self):
+        return self.choice_user_plateau
+
 
 
 if __name__ == "__main__":
