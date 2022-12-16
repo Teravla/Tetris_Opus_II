@@ -974,7 +974,7 @@ class Regle_du_jeu:
             print("Il devra ensuite les placer tour à tour sur les espaces diposnibles du plateau,")
             print("en saisissant les coordonnées de l’endroit où il veut les insérer.")
             print("Une fois qu'il aura remplit une ligne ou une colonne celle-ci disparaitra et lui fera gagner des points.")
-            print("Le but  du jeu :' Obtenir le plus haut score '")
+            print("Le but du jeu :' Obtenir le plus haut score '")
             Regle_du_jeu.affichage(self)
 
         
