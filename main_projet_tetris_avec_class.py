@@ -1,5 +1,6 @@
 import random as rd
 import time as tm
+import sys
 
 '''
 Programme Tetris L1 BN EFREI
@@ -23,24 +24,34 @@ class Grille:
             grille_2 = []
         return self.grille
 
-    def read_grid(self, path):
-        with open(path, "w") as programme:
-            programme.write('    ')
+    def read_grid(self, path, vertical_para, horizontal_para):
+
+        vertical = vertical_para
+        horizontal = (self.nb_colonne * 4 + self.nb_colonne) * horizontal_para
+        print(horizontal, vertical)
+        print(type(vertical_para))
+
+        with open(path, "w", encoding="utf-8") as programme:
+
+            programme.write('     ')
             for k in range(self.nb_colonne):
                 programme.write(self.lst_lettre_min[k])
-                programme.write('  ')
-            programme.write('\n   ')
-            programme.write(int(self.nb_colonne) * 3 * '-' + '-')
+                programme.write("   ")
+            programme.write('\n    ')
+
+            programme.write(horizontal)
             programme.write('\n')
             for i in range(int(self.nb_colonne)):
                 programme.write(self.lst_lettre_maj[i])
-                programme.write(" | ")
+                programme.write("  ")
+                programme.write(vertical_para)
                 for j in range(len(self.grille[i])):
+                    programme.write(" ")
                     programme.write(str(self.grille[i][j]))
-                programme.write("|")
+                programme.write(vertical)
                 programme.write("\n")
-            programme.write('   ')
-            programme.write(int(self.nb_colonne) * 3 * '-' + '-')
+            programme.write('    ')
+            programme.write(horizontal)
 
     # Ces fonctions permettent d'afficher les variables dans d'autres class
     def return_grille(self):
@@ -271,12 +282,10 @@ class Forme:
 
         return self.forme_cercle_ensemble
 
-    def path_figure(self):
-        self.path_figure = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
-
-    def affichage_figure_write(self, figure):
-        # "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
-        with open(self.path_figure, "w") as test_affichage_figure:
+    
+    def affichage_figure_write(self, figure, path):
+        
+        with open(path, "w") as test_affichage_figure:
             for i in range(len(figure)):
                 test_affichage_figure.write(str(i + 1))
                 test_affichage_figure.write("\n")
@@ -290,9 +299,9 @@ class Forme:
                 test_affichage_figure.write('\n')
         self.lst_forme_reutilisable_tous.append(figure)
 
-    def affichage_figure_append(self, figure):
-        # "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
-        with open(self.path_figure, "a") as test_affichage_figure:
+    def affichage_figure_append(self, figure, path):
+        
+        with open(path, "a") as test_affichage_figure:
             for i in range(len(figure)):
                 test_affichage_figure.write(str(i + 1))
                 test_affichage_figure.write("\n")
@@ -356,10 +365,10 @@ class Placement_figure:
 
         return self.lst_forme_reutilisable_alea
 
-    def blocs_tous(self, figure_1, figure_2):
-        Forme.path_figure(self)
-        Forme.affichage_figure_write(self, figure_1)
-        Forme.affichage_figure_append(self, figure_2)
+    def blocs_tous(self, figure_1, figure_2, path_figure):
+        
+        Forme.affichage_figure_write(self, figure_1, path_figure)
+        Forme.affichage_figure_append(self, figure_2, path_figure)
 
     # FIN# Choix de la politique de suggestion
 
@@ -525,14 +534,14 @@ class Placement_figure:
 
 
 
-    def placement_bloc_tous(self, figure_1, figure_2):
+    def placement_bloc_tous(self, figure_1, figure_2, path_figure):
 
         self.placement_possible_tous = False
         self.placement_impossible_tous = False
         self.placement_final_tous = False
         self.erreur_tous = True
 
-        Placement_figure.blocs_tous(self, figure_1, figure_2)
+        Placement_figure.blocs_tous(self, figure_1, figure_2, path_figure)
         print("\nLes figures possibles sont dans le fichier que vous avez spécifiez\n")
 
         while self.placement_final_tous == False:
@@ -849,23 +858,41 @@ class Regle_du_jeu:
 
     def affichage(self, choice= None):
         emoji_fete = "\U0001F389"
-        emoji_valentin = "\U0001F468"
+        emoji_valentin = "\U0001f4bb"
         emoji_joss = "\U0001F996"
+        emoji_jeu = "\U0001F3AE"
+        emoji_rule = "\U0001f4d6"
+        emoji_copyright = "\U0001FAAA"
+        emoji_cercle = "\u23FA\uFE0F"
+        emoji_triangle = "\U0001f53c"
+        emoji_losange = "\u23F9\uFE0F"
+        emoji_aleatoire = "\U0001f3b2"
+        emoji_tous = "\u267E\uFE0F"
+
+        emoji_carre_plein = "\U0001f7e6"
+        emoji_carre_vide = "\u2B1C"
+
+        emoji_ligne_vertical = '│'
+        emoji_ligne_horizontal = '\U000023AF'
+        print(type(emoji_ligne_horizontal))
 
 
 
-        print(8*'-')
-        print("\n\n",emoji_fete, "TETRIS, Opus II", emoji_fete,"\n\n")
-        print("Vous êtes sur l'écran d'acceuil, on vous laisse découvrir : \n")
-        print("1 - Commmencer à jouer")
-        print("2 - Afficher les règles du jeu")
-        print("3 - Copyright")
+        print(8*emoji_ligne_horizontal)
+        print("\n\n\t\t\t",emoji_fete, "TETRIS, Opus II (v1.0)", emoji_fete,"\n\n")
+        print("Vous êtes sur l'écran d'accueil, on vous laisse découvrir : \n")
+        print("1 - {} Commmencer à jouer".format(emoji_jeu))
+        print("2 - {} Afficher les règles du jeu".format(emoji_rule))
+        print("3 - {}  Copyright".format(emoji_copyright))
         print("\n")
 
         #Choix chemin accès
-        print("Choississez le chemin d'accès vers votre figure : ")
+        #print("Choississez le chemin d'accès vers votre plateau (sous la forme : "C:\\...\\...\\...") : ")
         #self.path = input("")
         self.path = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\programme.txt"
+        #print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : "C:\\...\\...\\...") : ")
+        #self.path_figure = input("")
+        self.path_figure = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\test_figure.txt"
 
         self.choice_user = input("Faire votre choix (1, 2, 3) : ")
         while self.choice_user < '1' or self.choice_user > '3':
@@ -879,9 +906,9 @@ class Regle_du_jeu:
                 self.nb_colonne = input("Donner le taille de votre tableau (21, 23 ou 25) : ")
 
             print("\nChoississez votre plateau de jeu :")
-            print("1 - Triangle")
-            print("2 - Losange")
-            print("3 - Cercle")
+            print("1 - {} Triangle".format(emoji_triangle))
+            print("2 - {}  Losange".format(emoji_losange))
+            print("3 - {}  Cercle".format(emoji_cercle))
             self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
             while self.choice_user_plateau < '1' or self.choice_user_plateau > '3':
                 self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
@@ -892,22 +919,22 @@ class Regle_du_jeu:
             if self.choice_user_plateau == '1':  # Triangle
                 Grille.create_grid(self, ' ', int(self.nb_colonne))
                 Grille.figure_triangle(self)
-                self.politique_suggestion_blocs()
-                Grille.read_grid(self, self.path)
+                self.politique_suggestion_blocs(emoji_aleatoire, emoji_tous)
+                Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                 while True:
-                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_triangle(self))
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_triangle(self), self.path_figure)
                     Placement_figure.placement_figures_grilles_alea(self)
                     Forme.formes_tous(self)
                     Forme.formes_triangle(self)
 
-                    Grille.read_grid(self, self.path)
+                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                     tm.sleep(.5)
 
                     Point.points_ligne(self)
                     Point.points_colonne(self)
                     self.affichage_points()
 
-                    Grille.read_grid(self, self.path)
+                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                     Forme.formes_tous(self)
                     Forme.formes_triangle(self)
                 
@@ -918,22 +945,22 @@ class Regle_du_jeu:
             if self.choice_user_plateau == '2':  # Losange
                 Grille.create_grid(self, ' ', int(self.nb_colonne))
                 Grille.figure_losange(self)
-                self.politique_suggestion_blocs()
-                Grille.read_grid(self, self.path)
+                self.politique_suggestion_blocs(emoji_aleatoire, emoji_tous)
+                Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                 while True:
-                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_losange(self))
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_losange(self), self.path_figure)
                     Placement_figure.placement_figures_grilles_alea(self)                    
                     Forme.formes_tous(self)
                     Forme.formes_losange(self)
 
-                    Grille.read_grid(self, self.path)
+                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                     tm.sleep(.5)
                     
                     Point.points_ligne(self)
                     Point.points_colonne(self)
                     self.affichage_points()
                     
-                    Grille.read_grid(self, self.path)
+                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                     Forme.formes_tous(self)
                     Forme.formes_losange(self)
                     
@@ -944,15 +971,15 @@ class Regle_du_jeu:
             if self.choice_user_plateau == '3':  # Cercle
                 Grille.create_grid(self, '.', int(self.nb_colonne))
                 Grille.figure_cercle(self,' ')
-                self.politique_suggestion_blocs()
-                Grille.read_grid(self, self.path)
+                self.politique_suggestion_blocs(emoji_aleatoire, emoji_tous)
+                Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                 while True:
-                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_cercle(self))
+                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_cercle(self), self.path_figure)
                     Placement_figure.placement_figures_grilles_alea(self)
                     Forme.formes_tous(self)
                     Forme.formes_cercle(self)
 
-                    Grille.read_grid(self, self.path)
+                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                     tm.sleep(.5)
 
 
@@ -960,7 +987,7 @@ class Regle_du_jeu:
                     Point.points_colonne(self)
                     self.affichage_points()
                     
-                    Grille.read_grid(self, self.path)
+                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal)
                     Forme.formes_tous(self)
                     Forme.formes_cercle(self)
                 
@@ -969,44 +996,35 @@ class Regle_du_jeu:
                    
         if self.choice_user == '2':
             # Mettre les règle ici
-            print("Le joueur pourra choisir une surface de jeu parmi l'une les trois formes proposées : Cercle, losange ou triangle.")
-            print("Il disposera de plusieurs blocs qu'il pourra afficher trois à chaque tours ou afficher l'intégralité des blocs.")
-            print("Il devra ensuite les placer tour à tour sur les espaces diposnibles du plateau,")
-            print("en saisissant les coordonnées de l’endroit où il veut les insérer.")
-            print("Une fois qu'il aura remplit une ligne ou une colonne celle-ci disparaitra et lui fera gagner des points.")
-            print("Le but du jeu :' Obtenir le plus haut score '")
+            print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant les coordonnées de l’endroit où il veut les insérer.")
             Regle_du_jeu.affichage(self)
 
         
         if self.choice_user == '3':
-            print("\n")
+            print("\nVoici les collaborateurs de cette première édition\n")
             lst_author = ["Valentin Menon","Joss Douniama Okana"]
             print("{} {:^25} {}".format(emoji_valentin, lst_author[0], emoji_valentin))
             print("{} {:^25} {}".format(emoji_joss, lst_author[1], emoji_joss))
             print("\n")
-            print("Pour retourner au menu, taper 1")
-            self.choice_user_copyright = input("Faites votre choix : ")
-            while self.choice_user_copyright != '1':
-                self.choice_user_copyright = input("Faites votre choix : ")
-            
-            if self.choice_user_copyright == '1':
-                self.affichage()
+            print("Pour retourner au menu, pressez la touche ENTREE")
+            self.choice_user_copyright = input("")
+            self.affichage()
             
             
 
 
 
-    def politique_suggestion_blocs(self):
+    def politique_suggestion_blocs(self, emoji_alea, emoji_tous):
         print("\nVous avez le choix entre deux suggestion de blocs :")
-        print("1 - Affichage de l'ensemble des blocs du jeu")
-        print("2 - Affichage de 3 blocs aléatoires")
+        print("1 - {}  Affichage de l'ensemble des blocs du jeu".format(emoji_tous))
+        print("2 - {} Affichage de 3 blocs aléatoires".format(emoji_alea))
         self.choice_user_politique_suggestion = input("Faite votre choix : ")
         while self.choice_user_politique_suggestion < '1' or self.choice_user_politique_suggestion > '2':
             self.choice_user_politique_suggestion = input("Faite votre choix : ")
         
-    def politique_suggestion_blocs_2(self, figure_1_suggestion, figure_2_suggestion):
+    def politique_suggestion_blocs_2(self, figure_1_suggestion, figure_2_suggestion, path_figure):
         if self.choice_user_politique_suggestion == '1':
-            Placement_figure.placement_bloc_tous(self, figure_1_suggestion, figure_2_suggestion)
+            Placement_figure.placement_bloc_tous(self, figure_1_suggestion, figure_2_suggestion, path_figure)
         if self.choice_user_politique_suggestion == '2':
             Placement_figure.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3)
         
