@@ -1,4 +1,5 @@
 import random as rd
+import time as tm
 
 '''
 Programme Tetris L1 BN EFREI
@@ -374,9 +375,9 @@ class Placement_figure:
             Placement_figure.blocs_alea(self, figure_1, figure_2, nb_blocs_afficher)
 
             print("\nChoississez un bloc")
-            choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut :")
+            choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut : ")
             while choice_user_placement_bloc_alea < '1' or choice_user_placement_bloc_alea > '3':
-                choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut :")
+                choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut : ")
 
 
 
@@ -395,51 +396,64 @@ class Placement_figure:
             while self.cordonnees_majuscule not in Grille.lettre_maj(self):
                 self.cordonnees_majuscule = str(input("Seconde coordonnée : "))
 
+            Placement_figure.reduction_grille_xy(self,self.forme_alea)
+            self.lst_inter_xy = self.lst_inter_x
+
             grille = Grille.return_grille(self)
             lst_min = Grille.return_minuscule(self)
             lst_maj = Grille.return_majuscule(self)
-            index_lst_maj = lst_maj.index(self.cordonnees_majuscule) - 4
+            index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-len(self.lst_inter_xy)+1
             index_lst_min = lst_min.index(self.cordonnees_minuscule)
-
-            
-            Placement_figure.reduction_grille_xy(self,self.forme_alea)
-
-            self.lst_inter_xy = self.lst_inter_x
             
             try:
                 for i in range(len(self.lst_inter_xy)):
                     for j in range(len(self.lst_inter_xy[i])):
                         #TEST -- print("\n",self.lst_inter_xy[i])
-                        if self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
+
+                        indent = i #+ len(self.lst_inter_xy)-1
+                        extend = i
+
+                        if self.forme_alea[extend][j] == 1 and grille[index_lst_maj + indent][index_lst_min + j] == '.  ':
                             self.placement_possible_alea = True
                             #print("A")
-                        elif self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '2  ':
+                        elif self.forme_alea[extend][j] == 1 and grille[index_lst_maj + indent][index_lst_min + j] == '2  ':
                             self.placement_impossible_alea = True
                             #print("B")
-                        elif self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '   ':
+                        elif self.forme_alea[extend][j] == 1 and grille[index_lst_maj + indent][index_lst_min + j] == '   ':
                             self.placement_impossible_alea = True
                             #print("C")
-                        elif self.forme_alea[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
+                        elif self.forme_alea[extend][j] == 0 and grille[index_lst_maj + indent][index_lst_min + j] == '   ':
                             self.placement_possible_alea = True
                             #print("D")
-                        elif self.forme_alea[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '2  ':
+                        elif self.forme_alea[extend][j] == 0 and grille[index_lst_maj + indent][index_lst_min + j] == '.  ':
                             self.placement_possible_alea = True
                             #print("E")
-                        #TEST -- print(self.placement_possible_alea, self.placement_impossible_alea)
+                        elif self.forme_alea[extend][j] == 0 and grille[index_lst_maj + indent][index_lst_min + j] == '2  ':
+                            self.placement_possible_alea = True
+                            #print("F")
+                        #print(self.forme_alea[extend][j],grille[index_lst_maj + indent][index_lst_min + j])
+                        #print(self.placement_possible_alea, self.placement_impossible_alea,"\n")
+                
+                 
+                        
             except:
                 print("Vous ne passerez pas")
                 
-            print("\n\n")
+            #TEST -- print("\n\n")
 
-            
-            
-
+    
             if self.placement_impossible_alea == True or self.placement_possible_alea == False:
-                print("Vous ne pouvez pas poser ce bloc ici")
+                print("Vous ne pouvez pas poser ce bloc ici lol")
                 self.placement_final_alea = False
             elif self.placement_impossible_alea == False and self.placement_possible_alea == True:
                 print("Vous pouvez placer ce bloc ici")
                 self.placement_final_alea = True
+
+            
+            
+            self.placement_impossible_alea = False
+            
+
             
 
     def reduction_grille_xy(self,forme):
@@ -475,7 +489,7 @@ class Placement_figure:
                         accept = False
                         accept_none = True
                 
-            #TEST -- print("test :", accept, accept_none)
+            #print("test :", accept, accept_none)
             
             if accept == True and accept_none == False:
                 for i in range(len(self.lst_inter_x)):
@@ -490,7 +504,7 @@ class Placement_figure:
             if 1 in self.lst_inter_x[i]:
                 repeat_x+=1
         
-        #TEST --print(len(self.lst_inter_x), repeat_x)
+        #print(len(self.lst_inter_x), repeat_x)
 
         for i in range(len(self.lst_inter_x)-repeat_x):
             if 1 not in self.lst_inter_x[i]:
@@ -502,7 +516,7 @@ class Placement_figure:
             del(self.lst_inter_x[0])
 
 
-        #TEST --print("final : ", self.lst_inter_x)
+        #TEST -- print("final : ", self.lst_inter_x)
         
         #TEST -- for i in range(len(self.lst_inter_x)):
             #TEST -- print(self.lst_inter_x[i])
@@ -664,7 +678,7 @@ class Placement_figure:
                     elif self.forme[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '2  ':
                         self.placement_impossible_tous = True
                     elif self.forme_alea[i][j] == 1 and grille[index_lst_maj + i][index_lst_min + j] == '   ':
-                        self.placement_impossible_alea = True
+                        self.placement_impossible_tous = True
                     elif self.forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
                         self.placement_possible_tous = True
                     elif self.forme[i][j] == 0 and grille[index_lst_maj + i][index_lst_min + j] == '.  ':
@@ -687,30 +701,37 @@ class Placement_figure:
         index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-len(self.lst_inter_xy)+1
         index_lst_min = lst_min.index(self.cordonnees_minuscule)
 
-        for k in range(len(self.forme_alea)):
-            print(self.forme_alea[k])
+        #for k in range(len(self.forme_alea)):
+            #print(self.forme_alea[k])
 
         if self.placement_final_alea == True:
+            #TEST -- print(Regle_du_jeu.return_choice_user_plateau(self))
             for i in range(len(self.lst_inter_xy)):
                 for j in range(len(self.lst_inter_xy[i])):
                     
-                    indent = i + len(self.lst_inter_xy)
+                    indent = i #+ len(self.lst_inter_xy)
                     extend = i
+
+                    #TEST -- print(Regle_du_jeu.return_choice_user_plateau(self))
 
                     if Regle_du_jeu.return_choice_user_plateau(self) == '1' or Regle_du_jeu.return_choice_user_plateau(self) == '2':
 
-                        if grille[index_lst_maj + indent][index_lst_min + j] == '2  ' and self.forme_alea[extend][j] == 1:
+                        if grille[index_lst_maj + indent][index_lst_min + j] == '2  '   and self.forme_alea[extend][j] == 1:
                             print("Vous ne pouvez pas poser ce bloc ici")
+
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 1:
+                            forme_alea_str = '2'
+                        
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '   ' and self.forme_alea[extend][j] == 1:
+                            print("Impossible")
 
                         elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 0:
                             forme_alea_str = '.'
 
                         elif grille[index_lst_maj + indent][index_lst_min + j] == '   ' and self.forme_alea[extend][j] == 0:
                             forme_alea_str = ' '
-                        
-                        elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 1:
-                            forme_alea_str = '2'
-                        
+        
+
                         elif grille[index_lst_maj + indent][index_lst_min + j] == '2  ' and self.forme_alea[extend][j] == 0:
                             forme_alea_str = '2'
 
@@ -718,23 +739,103 @@ class Placement_figure:
                     
                     elif Regle_du_jeu.return_choice_user_plateau(self) == '3':
 
-                        if grille[index_lst_maj + i][index_lst_min + j] == '2  ' and self.forme_alea[i][j] == 1:
+                        if grille[index_lst_maj + indent][index_lst_min + j] == '2  '   and self.forme_alea[extend][j] == 1:
                             print("Vous ne pouvez pas poser ce bloc ici")
 
-                        elif grille[index_lst_maj + i][index_lst_min + j] == '.  ' and self.forme_alea[i][j] == 0:
-                            forme_alea_str = '.'
-
-                        elif grille[index_lst_maj + i][index_lst_min + j] == '   ' and self.forme_alea[i][j] == 0:
-                            forme_alea_str = ' '
-                        
-                        elif grille[index_lst_maj + i][index_lst_min + j] == '.  ' and self.forme_alea[i][j] == 1:
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 1:
                             forme_alea_str = '2'
                         
-                        elif grille[index_lst_maj + i][index_lst_min + j] == '2  ' and self.forme_alea[i][j] == 0:
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '   ' and self.forme_alea[extend][j] == 1:
+                            print("Impossible")
+
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '.  ' and self.forme_alea[extend][j] == 0:
+                            forme_alea_str = '.'
+
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '   ' and self.forme_alea[extend][j] == 0:
+                            forme_alea_str = ' '
+        
+
+                        elif grille[index_lst_maj + indent][index_lst_min + j] == '2  ' and self.forme_alea[extend][j] == 0:
                             forme_alea_str = '2'
 
                         grille[index_lst_maj + i][index_lst_min + j] = forme_alea_str + '  '
                     
+
+class Point:
+    def __init__(self):
+        Grille.__init__(self)
+        Forme.__init__(self)
+        Placement_figure.__init__(self)
+        self.grille_point = Grille.return_grille(self)
+        self.choice_user = Regle_du_jeu.return_choice_user_plateau
+        self.point_final = 0
+        self.point = 0
+        
+
+
+    ### Points des lignes
+    
+    def points_ligne(self):
+        grille_2 = []
+        grille_2.append(Grille.return_grille(self))
+        arret = False
+
+        for i in range(len(self.grille_point)):
+            #print(self.grille_point[t])
+            if ('.  ' not in self.grille_point[i] or '.  ' not in self.grille_point[0]) or '.  ' not in self.grille_point[-1]:
+
+                while True:
+                    for j in range(len(self.grille_point)):
+                        if '.  ' not in self.grille_point[i]:
+                            if self.grille_point[i][j] == '2  ':
+                                self.grille_point[i][j] = '.  '
+                                self.point += 1
+                        
+
+                    while arret == False:
+                        for k in range(-2, -len(self.grille_point)-1, -1):
+                            for l in range(len(self.grille_point)):
+
+                                '''if self.grille_point[-1][l] == '2  ':
+                                    self.grille_point[-1][l] == '.  '''''
+                                
+                                if self.grille_point[0][l] == '2  ':
+                                    self.grille_point[0][l] == '.  '
+                                
+                                if self.grille_point[k+1][l] == '   ':
+                                    self.grille_point[k][l] == self.grille_point[k][l]
+
+                                elif self.grille_point[k][l] == '2  ':
+                                    self.grille_point[k+1][l] = self.grille_point[k][l]
+                                    self.grille_point[k][l] = '.  '
+                        arret = True
+                    break
+
+                
+                       
+    ### Points des colonnes
+
+    def points_colonne(self):
+        grille_2 = []
+        
+        for i in range(len(self.grille_point)):
+            for j in range(len(self.grille_point)):
+                grille_2.append(self.grille_point[j][i])
+                #TEST -- print(grille_2,"\n")
+            for k in range(len(self.grille_point)):
+                if '.  ' not in grille_2:
+                    #TEST -- print("\ngood\n")
+                    if self.grille_point[k][i] == '2  ':
+                        self.grille_point[k][i] = '.  '
+                        self.point += 1
+            grille_2 = []
+
+
+    ### MAIN 
+
+    def return_point(self):
+        return self.point
+ 
 
 
 class Regle_du_jeu:
@@ -742,23 +843,36 @@ class Regle_du_jeu:
         Grille.__init__(self)
         Forme.__init__(self)
         Placement_figure.__init__(self)
+        Point.__init__(self)
         self.nb_colonne = 0
+        
 
-    def affichage(self):
+    def affichage(self, choice= None):
+        emoji_fete = "\U0001F389"
+        emoji_valentin = "\U0001F468"
+        emoji_joss = "\U0001F996"
+
+
+
+        print(8*'-')
+        print("\n\n",emoji_fete, "TETRIS, Opus II", emoji_fete,"\n\n")
+        print("Vous êtes sur l'écran d'acceuil, on vous laisse découvrir : \n")
         print("1 - Commmencer à jouer")
         print("2 - Afficher les règles du jeu")
+        print("3 - Copyright")
+        print("\n")
 
         #Choix chemin accès
         print("Choississez le chemin d'accès vers votre figure : ")
         #self.path = input("")
         self.path = "C:\\Users\\User\\Documents\\Document\\EFREI\\L1\\Info\\Projet\\programme.txt"
 
-        self.choice_user = input("Faire votre choix (1, 2) : ")
-        while self.choice_user < '1' or self.choice_user > '2':
-            self.choice_user = input("Faire votre choix (1, 2) : ")
+        self.choice_user = input("Faire votre choix (1, 2, 3) : ")
+        while self.choice_user < '1' or self.choice_user > '3':
+            self.choice_user = input("Faire votre choix (1, 2, 3) : ")
 
 
-        if self.choice_user == '1':
+        if self.choice_user == '1' or choice == 1:
 
             self.nb_colonne = input("\nDonner le taille de votre tableau (21, 23 ou 25) : ")
             while (self.nb_colonne != '21' and self.nb_colonne != '23') and self.nb_colonne != '25':
@@ -783,7 +897,20 @@ class Regle_du_jeu:
                 while True:
                     self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_triangle(self))
                     Placement_figure.placement_figures_grilles_alea(self)
+                    Forme.formes_tous(self)
+                    Forme.formes_triangle(self)
+
                     Grille.read_grid(self, self.path)
+                    tm.sleep(.5)
+
+                    Point.points_ligne(self)
+                    Point.points_colonne(self)
+                    self.affichage_points()
+
+                    Grille.read_grid(self, self.path)
+                    Forme.formes_tous(self)
+                    Forme.formes_triangle(self)
+                
                     
                     
                 
@@ -795,8 +922,22 @@ class Regle_du_jeu:
                 Grille.read_grid(self, self.path)
                 while True:
                     self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_losange(self))
-                    Placement_figure.placement_figures_grilles_alea(self)
+                    Placement_figure.placement_figures_grilles_alea(self)                    
+                    Forme.formes_tous(self)
+                    Forme.formes_losange(self)
+
                     Grille.read_grid(self, self.path)
+                    tm.sleep(.5)
+                    
+                    Point.points_ligne(self)
+                    Point.points_colonne(self)
+                    self.affichage_points()
+                    
+                    Grille.read_grid(self, self.path)
+                    Forme.formes_tous(self)
+                    Forme.formes_losange(self)
+                    
+                
                     
                     
 
@@ -808,13 +949,47 @@ class Regle_du_jeu:
                 while True:
                     self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_cercle(self))
                     Placement_figure.placement_figures_grilles_alea(self)
+                    Forme.formes_tous(self)
+                    Forme.formes_cercle(self)
+
                     Grille.read_grid(self, self.path)
+                    tm.sleep(.5)
+
+
+                    Point.points_ligne(self)
+                    Point.points_colonne(self)
+                    self.affichage_points()
+                    
+                    Grille.read_grid(self, self.path)
+                    Forme.formes_tous(self)
+                    Forme.formes_cercle(self)
+                
+                    
                    
                    
         if self.choice_user == '2':
             # Mettre les règle ici
             print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant les coordonnées de l’endroit où il veut les insérer.")
             Regle_du_jeu.affichage(self)
+
+        
+        if self.choice_user == '3':
+            print("\n")
+            lst_author = ["Valentin Menon","Joss Douniama Okana"]
+            print("{} {:^25} {}".format(emoji_valentin, lst_author[0], emoji_valentin))
+            print("{} {:^25} {}".format(emoji_joss, lst_author[1], emoji_joss))
+            print("\n")
+            print("Pour retourner au menu, taper 1")
+            self.choice_user_copyright = input("Faites votre choix : ")
+            while self.choice_user_copyright != '1':
+                self.choice_user_copyright = input("Faites votre choix : ")
+            
+            if self.choice_user_copyright == '1':
+                self.affichage()
+            
+            
+
+
 
     def politique_suggestion_blocs(self):
         print("\nVous avez le choix entre deux suggestion de blocs :")
@@ -832,6 +1007,10 @@ class Regle_du_jeu:
         
     def return_choice_user_plateau(self):
         return self.choice_user_plateau
+    
+    def affichage_points(self):
+        print("good")
+        print("Vous avez {} points".format(Point.return_point(self)))
 
 
 
