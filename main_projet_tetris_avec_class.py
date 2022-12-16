@@ -969,7 +969,9 @@ class Regle_du_jeu:
                    
         if self.choice_user == '2':
             # Mettre les règle ici
-            print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle. Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau en saisissant les coordonnées de l’endroit où il veut les insérer.")
+            print("Le joueur peut choisir une surface selon les trois formes possibles: Cercle, losange ou triangle.")
+            print("Il disposera d'un ensemble de blocs qu'il devra placer tour à tour sur la surface valide du plateau")
+            print("en saisissant les coordonnées de l’endroit où il veut les insérer.")
             Regle_du_jeu.affichage(self)
 
         
