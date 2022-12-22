@@ -1182,22 +1182,10 @@ class Rule_of_the_game:
                     Shape.display_figure_append(self, Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                     self.user_policy_2(Shape.shape_all(self), Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
                     Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)
-                    Shape.shape_all(self)
-                    Shape.shape_triangle(self)
-                    Shape.__init__(self)
-                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Shape.display_figure_append(self, Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     tm.sleep(.5)
-
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
-                    Shape.shape_all(self)
-                    Shape.shape_triangle(self)
-                    Shape.__init__(self)
-                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Shape.display_figure_append(self, Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                
+                    
                     
             if self.choice_user_plateau == '2':  # Diamond
                 Grid.create_grid(self, ' ', int(self.nb_colonne))
@@ -1211,23 +1199,11 @@ class Rule_of_the_game:
                     Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                     Shape.display_figure_append(self, Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                     self.user_policy_2(Shape.shape_all(self), Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
-                    
-                    Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)                  
-                    Shape.shape_all(self)
-                    Shape.shape_diamond(self)
-                    Shape.__init__(self)
-                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Shape.display_figure_append(self, Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-
+                    Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)             
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     tm.sleep(.5)
-                    
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
-                    Shape.shape_all(self)
-                    Shape.shape_diamond(self)
-                    Shape.__init__(self)
-                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Shape.display_figure_append(self, Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    
                     
                 
             if self.choice_user_plateau == '3':  # Circle
@@ -1241,24 +1217,12 @@ class Rule_of_the_game:
                     Shape.__init__(self)
                     Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                     Shape.display_figure_append(self, Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    
                     self.user_policy_2(Shape.shape_all(self), Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
                     Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)
-                    Shape.shape_all(self)
-                    Shape.shape_circular(self)
-                    Shape.__init__(self)
-                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Shape.display_figure_append(self, Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     tm.sleep(.5)
-                    
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
-                    Shape.shape_all(self)
-                    Shape.shape_circular(self)
-                    Shape.__init__(self)
-                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Shape.display_figure_append(self, Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    
             
             else:
                 Rule_of_the_game.display(self)
