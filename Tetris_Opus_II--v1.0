@@ -1119,16 +1119,12 @@ class Rule_of_the_game:
 
 
         #Choosing the path to .txt
-        #print("Avant toute chose, initialisons votre jeu : \n\n")
-        #print("Choississez le chemin d'accès vers votre plateau (sous la forme : 'C:\\...\\...\\...') : ")
-        #self.path = input("")
-
-        self.path = ".\\programme.txt"
+        print("Avant toute chose, initialisons votre jeu : \n\n")
+        print("Choississez le chemin d'accès vers votre plateau (sous la forme : 'C:\\...\\...\\...') : ")
+        self.path = input("")
         
-        #print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : 'C:\\...\\...\\...') : ")
-        #self.path_figure = input("")
-    
-        self.path_figure = ".\\test_figure.txt"
+        print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : 'C:\\...\\...\\...') : ")
+        self.path_figure = input("")
         ##
 
 
