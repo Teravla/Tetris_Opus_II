@@ -1,38 +1,52 @@
+
+
+
+############################################################
+### Program Tetris Opus II                               ###
+###                                                      ###
+### Author : Valentin Menon, Joss Douniama Okana         ###
+###                                                      ###
+### Version : v1.0, 22/12/2022                           ###
+############################################################
+
+
 #Library Import
 import random as rd
 import time as tm
 import sys
 
-'''
-Program Tetris L1 BN EFREI
-
-Author : Teravla, Joss Douniama Okana
-
-V.01
-'''
 
 #Any function related to the grid
-class Grille:
+class Grid:
 
     def __init__(self):
+        ### Initialization function
         self.grille = []
         self.lst_letter_maj = []
         self.lst_letter_min = [] 
 
 
     #Creation and reading of the grid
-    def create_grid(self, chiffre_donné, taille):
+    def create_grid(self, chiffre_donne, taille):
+        ### Creation of the grid
+        ##### chiffre_donne : Background
+        ##### taille        : tray size
         grille_2 = []
         self.nb_colonne = taille
         for i in range(int(int(self.nb_colonne))):
             for j in range(int(int(self.nb_colonne))):
-                chiffre = str(chiffre_donné) + "  "
+                chiffre = str(chiffre_donne) + "  "
                 grille_2.append(chiffre)
             self.grille.append(grille_2)
             grille_2 = []
         return self.grille
 
-    def read_grid(self, path, vertical_para, horizontal_para, coin_bg, coin_hg, coin_bd, coin_hd):
+    def reading_grid(self, path, vertical_para, horizontal_para, coin_bg, coin_hg, coin_bd, coin_hd):
+        ### Display the grid in a .txt
+        ##### path : path to the .txt file
+        ##### vertical_para   : vertical border 
+        ##### horizontal_para : horizontal border
+        ##### coin_xx         : corner of the tray
 
         
         horizontal = (self.nb_colonne * 4) * horizontal_para + horizontal_para
@@ -42,7 +56,7 @@ class Grille:
 
             programme.write('      ')
             for k in range(self.nb_colonne):
-                programme.write(Grille.letter_min(self)[k])
+                programme.write(Grid.letter_lower(self)[k])
                 programme.write("   ")
             programme.write('\n   ')
 
@@ -52,7 +66,7 @@ class Grille:
 
             programme.write('\n')
             for i in range(int(self.nb_colonne)):
-                programme.write(Grille.letter_maj(self)[i])
+                programme.write(Grid.letter_capital(self)[i])
                 programme.write("  ")
                 programme.write(vertical)
                 for j in range(len(self.grille[i])):
@@ -68,19 +82,20 @@ class Grille:
 
 
     #Return Function for other class
-    def return_grille(self):
+    def return_grid(self):
         return self.grille
 
-    def return_majuscule(self):
+    def return_capital(self):
         return self.lst_letter_maj
 
-    def return_minuscule(self):
+    def return_lower(self):
         return self.lst_letter_min
     ####
 
 
     #Display of letters
-    def letter_min(self):
+    def letter_lower(self):
+        ### Create a list with all lower letter
         lim = 97 + int(int(self.nb_colonne))
         for i in range(97, lim):
             letter_min = chr(i)
@@ -90,7 +105,8 @@ class Grille:
         return self.lst_letter_min
     
 
-    def letter_maj(self):
+    def letter_capital(self):
+        ### Create a list with all capital letter
         lim = 65 + int(int(self.nb_colonne))
         for i in range(65, lim):
             letter_maj = chr(i)
@@ -102,7 +118,9 @@ class Grille:
 
 
     #Shapes
-    def figure_triangle(self, carre_vide):
+    def shape_triangle(self, carre_vide):
+        ### Create a triangle tray 
+        ##### carre_vide : shape of the empty slot in the tray
         min = int(self.nb_colonne) // 2
         max = (int(self.nb_colonne) // 2) + 1
         for i in range(max):
@@ -111,7 +129,9 @@ class Grille:
             min -= 1
             max += 1
 
-    def figure_losange(self, carre_vide):
+    def shape_diamond(self, carre_vide):
+        ### Create a diamond tray 
+        ##### carre_vide : shape of the empty slot in the tray
         min = int(self.nb_colonne) // 2
         max = (int(self.nb_colonne) // 2) + 1
         for i in range(max):
@@ -128,29 +148,32 @@ class Grille:
             max -= 1
         self.grille[int(self.nb_colonne) - 1][int(self.nb_colonne) // 2] = carre_vide + "  "
 
-    def figure_cercle(self, trou):
-        # Haut Gauche
+    def shape_circular(self, trou):
+        ### Create a circular tray, This function works differently, it filled the grid with empty slots and created the holes to form a circle
+        ##### trou : background, empty slots
+
+        # Top Left
         max = int(self.nb_colonne) // 4
         min = 0
         for i in range(max):
             for j in range(min, max):
                 self.grille[i][j] = str(trou) + '  '
             max -= 1
-        # Haut Droit
+        # Top Right
         max = int(self.nb_colonne)
         min = int((3 / 4) * int(self.nb_colonne) + 1)
         for i in range(int(self.nb_colonne) // 4):
             for j in range(min, max):
                 self.grille[i][j] = str(trou) + '  '
             min += 1
-        # Bas Gauche
+        # Bottom Left
         max = int(self.nb_colonne) // 4
         min = 1
         for i in range(int((3 / 4) * int(self.nb_colonne) + 1), int(self.nb_colonne)):
             for j in range(min):
                 self.grille[i][j] = str(trou) + '  '
             min += 1
-        # Bas Droit
+        # Bottom Right
         max = int(self.nb_colonne)
         min = int(self.nb_colonne)
         for i in range(int((3 / 4) * int(self.nb_colonne) + 1), int(self.nb_colonne)):
@@ -162,13 +185,15 @@ class Grille:
 
 
 #Any function related to shapes
-class Forme:
+class Shape:
 
     def __init__(self):
+        ### Initialization function
         self.lst_forme_reutilisable_tous = []
 
     #Shapes common to all trays
-    def formes_tous(self):
+    def shape_all(self):
+        ### Shapes common to all trays
         self.forme_tous_ensemble = []
         self.forme_tous_1 = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 1, 0, 0, 0]]
         self.forme_tous_2 = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 1, 0, 0, 0], [1, 1, 0, 0, 0]]
@@ -214,7 +239,8 @@ class Forme:
         return self.forme_tous_ensemble
 
     #Shapes common to the tray ==> Triangle
-    def formes_triangle(self):
+    def shape_triangle(self):
+        ### Shapes common to the tray ==> Triangle
         self.forme_triangle_ensemble = []
         self.forme_triangle_1 = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 1, 1, 0, 0], [0, 0, 1, 0, 0]]
         self.forme_triangle_2 = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 0, 0, 0], [0, 1, 0, 0, 0], [0, 1, 1, 0, 0]]
@@ -243,7 +269,8 @@ class Forme:
 
 
     #Shapes common to the tray ==> Diamond
-    def formes_losange(self):
+    def shape_diamond(self):
+        ### Shapes common to the tray ==> Diamond
         self.forme_losange_ensemble = []
         self.forme_losange_1 = [[0, 0, 0, 0, 0], [0, 0, 0, 1, 1], [0, 0, 1, 1, 0], [0, 1, 1, 0, 0], [1, 1, 0, 0, 0]]
         self.forme_losange_2 = [[0, 0, 0, 0, 0], [1, 1, 0, 0, 0], [0, 1, 1, 0, 0], [0, 0, 1, 1, 0], [0, 0, 0, 1, 1]]
@@ -278,7 +305,8 @@ class Forme:
 
 
     #Shapes common to the tray ==> Circle
-    def formes_cercle(self):
+    def shape_circular(self):
+        ### Shapes common to the tray ==> Circle
         self.forme_cercle_ensemble = []
         self.forme_cercle_1 = [[0, 0, 0, 0, 0], [1, 1, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 1, 0], [1, 1, 1, 1, 0]]
         self.forme_cercle_2 = [[0, 0, 0, 0, 0], [0, 1, 1, 0, 0], [1, 1, 1, 1, 0], [1, 1, 1, 1, 0], [0, 1, 1, 0, 0]]
@@ -309,7 +337,13 @@ class Forme:
 
     
     #Writing shapes in a .txt for user policy: all blocks
-    def affichage_figure_write(self, figure, path, carre_vide, carre_plein):
+    def display_figure_write(self, figure, path, carre_vide, carre_plein):
+        ### The shapes come from two different functions (all shapes + tray-specific shapes). This function writes in the .txt one of the first shape group
+        ##### figure      : One of the first shape group
+        ##### path        : path to the .txt file
+        ##### carre_vide  : empty slot
+        ##### carre_plein : full slot
+
 
         vide = carre_vide + " "
         plein = carre_plein + " "
@@ -330,7 +364,12 @@ class Forme:
 
         
 
-    def affichage_figure_append(self, figure, path, carre_vide, carre_plein):
+    def display_figure_append(self, figure, path, carre_vide, carre_plein):
+        ### The shapes come from two different functions (all shapes + tray-specific shapes). This function writes in the .txt the other shape group
+        ##### figure      : One of the first shape group
+        ##### path        : path to the .txt file
+        ##### carre_vide  : empty slot
+        ##### carre_plein : full slot
 
         vide = carre_vide + " "
         plein = carre_plein + " "
@@ -348,28 +387,39 @@ class Forme:
                     test_affichage_figure.write('\n')
                 test_affichage_figure.write('\n')
         self.lst_forme_reutilisable_tous.append(figure)
+    ####
     
         
-
-    def return_lst_forme_reutilisable(self):
+    #Return Function for other class
+    def return_lst_reuse_shape(self):
         return self.lst_forme_reutilisable_tous
     ####
 
 
 
 #Any function related to bloc placing
-class Placement_figure:
+class Figure_placement:
+
     def __init__(self) -> None:
-        Forme.__init__(self)
-        Grille.__init__(self)
+        ### Initialization function
+        Shape.__init__(self)
+        Grid.__init__(self)
         
         self.erreur_placement = 0
         
-        self.placement_bloc_tous = False
+        self.placement_bloc_all = False
         
 
     #Choice of blocks in the case of user policy ==> random blocks
     def blocs_alea(self, figure_1, figure_2, nb_blocs_afficher, vide, plein, diff):
+        ### Initializes the creation and display of random blocks
+        ##### figure_1          : one of the shape group
+        ##### figure_2          : the other shape group
+        ##### nb_blocs_afficher : number of random blocks displayed
+        ##### vide              : empty slot
+        ##### plein             : full slot
+        ##### diff              : difficulty (number of chance)
+
         self.lst_alea = []
         self.lst_affichage_forme_alea = []
         self.lst_forme_reutilisable_alea = []
@@ -380,10 +430,10 @@ class Placement_figure:
             self.lst_alea.append(figure_2[i])
 
         #display of points
-        Point.points_ligne(self, vide, plein)
-        Point.points_colonne(self, vide, plein)
-        Regle_du_jeu.affichage_points(self)
-        Regle_du_jeu.chance_restante(self, diff)
+        Point.points_line(self, vide, plein)
+        Point.points_column(self, vide, plein)
+        Rule_of_the_game.point_display(self)
+        Rule_of_the_game.remaining_chance(self, diff)
         ##
 
         
@@ -428,27 +478,36 @@ class Placement_figure:
 
     #Placement of blocks in case of user policy ==> random blocks
     def placement_bloc_alea(self, figure_1, figure_2, nb_blocs_afficher, vide, plein, target, min, maj, bad, good, diff):
+        ### Checks if the shape can be posed
+        ##### figure_1           : one of the shape group
+        ##### figure_2           : the other shape group
+        ##### nb_blocs_afficher  : number of random blocks displayed
+        ##### vide               : empty slot
+        ##### plein              : full slot
+        ##### target, min, maj, bad, good : emoji
+        ##### diff               : difficulty
+
 
         self.placement_possible_alea = False
         self.placement_impossible_alea = False
         self.placement_final_alea = False
-        grille = Grille.return_grille(self)
-        lst_min = Grille.return_minuscule(self)
-        lst_maj = Grille.return_majuscule(self)
+        grille = Grid.return_grid(self)
+        lst_min = Grid.return_lower(self)
+        lst_maj = Grid.return_capital(self)
         vide_long = vide + "  "
         plein_long = plein + "  "
         error = "\u274C"
 
 
-        Placement_figure.blocs_alea(self, figure_1, figure_2, nb_blocs_afficher, vide, plein, diff)
+        Figure_placement.blocs_alea(self, figure_1, figure_2, nb_blocs_afficher, vide, plein, diff)
 
         
 
         #Block Selection
         print("\nChoississez un bloc")
-        choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut (4 pour arreter) : ")
+        choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut (4 pour Menu) : ")
         while choice_user_placement_bloc_alea < '1' or choice_user_placement_bloc_alea > '4':
-            choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut (4 pour arreter): ")
+            choice_user_placement_bloc_alea = input("1, 2 ou 3 en partant du haut (4 pour Menu): ")
 
         if choice_user_placement_bloc_alea == '1':
             self.forme_alea = self.lst_forme_reutilisable_alea[0]
@@ -457,9 +516,7 @@ class Placement_figure:
         if choice_user_placement_bloc_alea == '3':
             self.forme_alea = self.lst_forme_reutilisable_alea[2]
         if choice_user_placement_bloc_alea == '4':
-            Regle_du_jeu.affichage(self)
-        else:
-            Regle_du_jeu.affichage(self)
+            Rule_of_the_game.display(self)
         #--# Add conditions as part of displaying more blocks (default : 3)
         ##
 
@@ -468,19 +525,19 @@ class Placement_figure:
         print(target, "- Choisir les coordonnées pour poser votre bloc :")
         print(min, "-- Première coordonnée ( minuscule ): ", end="")
         self.cordonnees_minuscule = str(input(""))
-        while self.cordonnees_minuscule not in Grille.letter_min(self):
+        while self.cordonnees_minuscule not in Grid.letter_lower(self):
             print(min, "-- Première coordonnée ( minuscule ): ", end="")
             self.cordonnees_minuscule = str(input(""))
 
         print(maj, "-- Seconde coordonnée ( majuscule ): ", end="")
         self.cordonnees_majuscule = str(input(""))
-        while self.cordonnees_majuscule not in Grille.letter_maj(self):
+        while self.cordonnees_majuscule not in Grid.letter_capital(self):
             print(maj, "-- Seconde coordonnée ( majuscule ): ", end="")
             self.cordonnees_majuscule = str(input(""))
         ##
 
         #Variable requiring the user’s prior choice
-        Placement_figure.reduction_grille_xy(self,self.forme_alea)
+        Figure_placement.reduction_grid_xy(self,self.forme_alea)
         self.lst_inter_xy = self.lst_inter_x
         index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-len(self.lst_inter_xy)+1
         index_lst_min = lst_min.index(self.cordonnees_minuscule)
@@ -525,7 +582,9 @@ class Placement_figure:
 
 
     #This function reduces the shape of the block to a minimum so that it can be placed on the edge of the tray and avoid errors: out of range. 
-    def reduction_grille_xy(self,forme):
+    def reduction_grid_xy(self,forme):
+        ### Reduces the figure to the maximum in order to be able to place it along the trays
+        ##### Forme : shape
 
         self.lst_inter_x = []
         index_y = 5
@@ -587,33 +646,48 @@ class Placement_figure:
 
 
     #Choice of blocks in the case of user policy ==> all blocks
-    def blocs_tous(self, figure_1, figure_2, path_figure, vide, plein, diff):
+    def blocs_all(self, figure_1, figure_2, path_figure, vide, plein, diff):
+        ### Initializes the creation and display of all blocks
+        ##### figure_1    : one of the shape group
+        ##### figure_2    : the other shape group
+        ##### path_figure : path to the .txt where all the blocks are
+        ##### vide        : empty slot
+        ##### plein       : full slot
+        ##### diff        : difficulty (number of chance)
         
-        Forme.affichage_figure_write(self, figure_1, path_figure, vide, plein)
-        Forme.affichage_figure_append(self, figure_2, path_figure, vide, plein)
+        Shape.display_figure_write(self, figure_1, path_figure, vide, plein)
+        Shape.display_figure_append(self, figure_2, path_figure, vide, plein)
 
         #display of points
-        Point.points_ligne(self, vide, plein)
-        Point.points_colonne(self, vide, plein)
-        Regle_du_jeu.affichage_points(self)
-        Regle_du_jeu.chance_restante(self, diff)
+        Point.points_line(self, vide, plein)
+        Point.points_column(self, vide, plein)
+        Rule_of_the_game.point_display(self)
+        Rule_of_the_game.remaining_chance(self, diff)
         ##
     ####
 
 
     #Placement of blocks in case of user policy ==> all blocks
-    def placement_bloc_tous(self, figure_1, figure_2, path_figure, vide, plein, target, min, maj, bad, good, diff):
+    def placement_bloc_all(self, figure_1, figure_2, path_figure, vide, plein, target, min, maj, bad, good, diff):
+        ### Checks if the shape can be posed
+        ##### figure_1    : one of the shape group
+        ##### figure_2    : the other shape group
+        ##### path_figure : path to the .txt where all the blocks are
+        ##### vide        : empty slot
+        ##### plein       : full slot
+        ##### target, min, maj, bad, good : emoji
+        ##### diff        : difficulty
 
-        Placement_figure.blocs_tous(self, figure_1, figure_2, path_figure, vide, plein, diff)
+        Figure_placement.blocs_all(self, figure_1, figure_2, path_figure, vide, plein, diff)
 
         self.placement_possible_tous = False
         self.placement_impossible_tous = False
         self.placement_final_tous = False
         self.erreur_tous = True
         self.erreur_placement = 0
-        grille = Grille.return_grille(self)
-        lst_min = Grille.return_minuscule(self)
-        lst_maj = Grille.return_majuscule(self)
+        grille = Grid.return_grid(self)
+        lst_min = Grid.return_lower(self)
+        lst_maj = Grid.return_capital(self)
         vide_long = vide + "  "
         plein_long = plein + "  "
         error = "\u274C"
@@ -625,123 +699,126 @@ class Placement_figure:
         self.erreur_tous = True
         while self.erreur_tous == True:
             print("\nChoississez un bloc")
-            choice_user_placement_bloc_tous = input("En partant du haut : ")
+            choice_user_placement_bloc_all = input("En partant du haut (40 pour Menu): ")
 
-            if choice_user_placement_bloc_tous == '1':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][0]
+            if choice_user_placement_bloc_all == '1':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][0]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '2':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][1]
+            elif choice_user_placement_bloc_all == '2':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][1]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '3':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][2]
+            elif choice_user_placement_bloc_all == '3':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][2]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '4':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][3]
+            elif choice_user_placement_bloc_all == '4':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][3]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '5':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][4]
+            elif choice_user_placement_bloc_all == '5':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][4]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '6':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][5]
+            elif choice_user_placement_bloc_all == '6':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][5]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '7':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][6]
+            elif choice_user_placement_bloc_all == '7':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][6]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '8':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][7]
+            elif choice_user_placement_bloc_all == '8':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][7]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '9':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][8]
+            elif choice_user_placement_bloc_all == '9':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][8]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '10':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][9]
+            elif choice_user_placement_bloc_all == '10':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][9]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '11':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][10]
+            elif choice_user_placement_bloc_all == '11':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][10]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '12':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][11]
+            elif choice_user_placement_bloc_all == '12':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][11]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '13':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][12]
+            elif choice_user_placement_bloc_all == '13':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][12]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '14':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][13]
+            elif choice_user_placement_bloc_all == '14':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][13]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '15':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][14]
+            elif choice_user_placement_bloc_all == '15':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][14]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '16':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][15]
+            elif choice_user_placement_bloc_all == '16':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][15]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '17':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][16]
+            elif choice_user_placement_bloc_all == '17':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][16]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '18':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][17]
+            elif choice_user_placement_bloc_all == '18':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][17]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '19':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][18]
+            elif choice_user_placement_bloc_all == '19':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][18]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '20':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[0][19]
+            elif choice_user_placement_bloc_all == '20':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[0][19]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '21':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][0]
+            elif choice_user_placement_bloc_all == '21':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][0]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '22':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][1]
+            elif choice_user_placement_bloc_all == '22':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][1]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '23':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][2]
+            elif choice_user_placement_bloc_all == '23':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][2]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '24':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][3]
+            elif choice_user_placement_bloc_all == '24':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][3]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '25':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][4]
+            elif choice_user_placement_bloc_all == '25':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][4]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '26':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][5]
+            elif choice_user_placement_bloc_all == '26':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][5]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '27':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][6]
+            elif choice_user_placement_bloc_all == '27':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][6]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '28':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][7]
+            elif choice_user_placement_bloc_all == '28':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][7]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '29':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][8]
+            elif choice_user_placement_bloc_all == '29':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][8]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '30':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][9]
+            elif choice_user_placement_bloc_all == '30':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][9]
                 self.erreur_tous = False
-            elif choice_user_placement_bloc_tous == '31':
-                self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][10]
+            elif choice_user_placement_bloc_all == '31':
+                self.forme_tous = Shape.return_lst_reuse_shape(self)[1][10]
                 self.erreur_tous = False
 
             #This is because some trays have more shapes than others
-            elif choice_user_placement_bloc_tous == '32':
+            elif choice_user_placement_bloc_all == '32':
                 try:
-                    self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][11]
+                    self.forme_tous = Shape.return_lst_reuse_shape(self)[1][11]
                     self.erreur_tous = False
                 except:
                     self.erreur_tous = True
-            elif choice_user_placement_bloc_tous == '33':
+            elif choice_user_placement_bloc_all == '33':
                 try:
-                    self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][12]
+                    self.forme_tous = Shape.return_lst_reuse_shape(self)[1][12]
                     self.erreur_tous = False
                 except:
                     self.erreur_tous = True
-            elif choice_user_placement_bloc_tous == '34':
+            elif choice_user_placement_bloc_all == '34':
                 try:
-                    self.forme_tous = Forme.return_lst_forme_reutilisable(self)[1][13]
+                    self.forme_tous = Shape.return_lst_reuse_shape(self)[1][13]
                     self.erreur_tous = False
                 except:
                     self.erreur_tous = True
             else:
                 self.erreur_tous = True
+
+            if choice_user_placement_bloc_all == '40':
+                Rule_of_the_game.display(self)
     ##
 
 
@@ -750,19 +827,19 @@ class Placement_figure:
         print(target, "- Choisir les coordonnées pour poser votre bloc :")
         print(min, "-- Première coordonnée ( minuscule ): ", end="")
         self.cordonnees_minuscule = str(input(""))
-        while self.cordonnees_minuscule not in Grille.letter_min(self):
+        while self.cordonnees_minuscule not in Grid.letter_lower(self):
             print(min, "-- Première coordonnée ( minuscule ): ", end="")
             self.cordonnees_minuscule = str(input(""))
 
         print(maj, "-- Seconde coordonnée ( majuscule ): ", end="")
         self.cordonnees_majuscule = str(input(""))
-        while self.cordonnees_majuscule not in Grille.letter_maj(self):
+        while self.cordonnees_majuscule not in Grid.letter_capital(self):
             print(maj, "-- Seconde coordonnée ( majuscule ): ", end="")
             self.cordonnees_majuscule = str(input(""))
         ##
 
         #Variable requiring the user’s prior choice
-        Placement_figure.reduction_grille_xy(self,self.forme_tous)
+        Figure_placement.reduction_grid_xy(self,self.forme_tous)
         self.lst_inter_xy = self.lst_inter_x
         index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-len(self.lst_inter_xy)+1
         index_lst_min = lst_min.index(self.cordonnees_minuscule)
@@ -808,11 +885,15 @@ class Placement_figure:
 
 
     #Function of placing blocks on the tray in the .txt
-    def placement_figures_grille(self, vide, plein):
-        grille = Grille.return_grille(self)
+    def placement_shape_grid(self, vide, plein):
+        ### Place the shape on the tray
+        ##### vide : empty slot
+        ##### plein : full slot
 
-        lst_min = Grille.return_minuscule(self)
-        lst_maj = Grille.return_majuscule(self)
+        grille = Grid.return_grid(self)
+
+        lst_min = Grid.return_lower(self)
+        lst_maj = Grid.return_capital(self)
         index_lst_maj = lst_maj.index(self.cordonnees_majuscule)-len(self.lst_inter_xy)+1
         index_lst_min = lst_min.index(self.cordonnees_minuscule)
         vide_long = vide + "  "
@@ -824,7 +905,7 @@ class Placement_figure:
                 for i in range(len(self.lst_inter_xy)):
                     for j in range(len(self.lst_inter_xy[i])):
                         
-                        if (Regle_du_jeu.return_choice_user_plateau(self) == '1' or Regle_du_jeu.return_choice_user_plateau(self) == '2') or Regle_du_jeu.return_choice_user_plateau(self) == '3':
+                        if (Rule_of_the_game.return_choice_user_tray(self) == '1' or Rule_of_the_game.return_choice_user_tray(self) == '2') or Rule_of_the_game.return_choice_user_tray(self) == '3':
 
                             if grille[index_lst_maj + i][index_lst_min + j] == plein_long   and self.forme_alea[i][j] == 1:
                                 print("Contact Admin, error 0X00")
@@ -854,7 +935,7 @@ class Placement_figure:
                 for i in range(len(self.lst_inter_xy)):
                     for j in range(len(self.lst_inter_xy[i])):
 
-                        if (Regle_du_jeu.return_choice_user_plateau(self) == '1' or Regle_du_jeu.return_choice_user_plateau(self) == '2') or Regle_du_jeu.return_choice_user_plateau(self) == '3':
+                        if (Rule_of_the_game.return_choice_user_tray(self) == '1' or Rule_of_the_game.return_choice_user_tray(self) == '2') or Rule_of_the_game.return_choice_user_tray(self) == '3':
 
                             if grille[index_lst_maj + i][index_lst_min + j] == plein_long   and self.forme_tous[i][j] == 1:
                                 print("Contact Admin, error 0X10")
@@ -889,20 +970,26 @@ class Placement_figure:
                         
 #Any function related to point management
 class Point:
+
     def __init__(self):
-        Grille.__init__(self)
-        Forme.__init__(self)
-        Placement_figure.__init__(self)
-        self.grille_point = Grille.return_grille(self)
-        self.choice_user = Regle_du_jeu.return_choice_user_plateau
+        ### Initialization function
+        Grid.__init__(self)
+        Shape.__init__(self)
+        Figure_placement.__init__(self)
+        self.grille_point = Grid.return_grid(self)
+        self.choice_user = Rule_of_the_game.return_choice_user_tray
         self.point_final = 0
         self.point = 0
         
 
     #Line points
-    def points_ligne(self, vide, plein):
+    def points_line(self, vide, plein):
+        ### Checks lines and removes them if they are full adding points to user
+        ##### vide : empty slot
+        ##### plein : full slot
+
         grille_2 = []
-        grille_2.append(Grille.return_grille(self))
+        grille_2.append(Grid.return_grid(self))
         arret = False
         plein_long = plein + "  "
         vide_long = vide + "  "
@@ -936,7 +1023,11 @@ class Point:
 
 
     #Column points
-    def points_colonne(self, vide, plein):
+    def points_column(self, vide, plein):
+        ### Checks columns and removes them if they are full adding points to user
+        ##### vide : empty slot
+        ##### plein : full slot
+
         grille_2 = []
         plein_long = plein + "  "
         vide_long = vide + "  "
@@ -952,24 +1043,30 @@ class Point:
             grille_2 = []
     ####
 
-
+    # Return Function for other class 
     def return_point(self):
         return self.point
+    ####
  
 
 
 #Main Fonctions
-class Regle_du_jeu:
+class Rule_of_the_game:
+
     def __init__(self):
-        Grille.__init__(self)
-        Forme.__init__(self)
-        Placement_figure.__init__(self)
+        ### Initialization function
+        Grid.__init__(self)
+        Shape.__init__(self)
+        Figure_placement.__init__(self)
         Point.__init__(self)
         self.nb_colonne = 0
         self.mode_diff = "Moyen"
         
 
-    def affichage(self, difficulte=3, mode_diff="Moyen"):
+    def display(self, difficulte=3, mode_diff="Moyen"):
+        ### Main Function, display the menu to user
+        ##### difficulte : Difficulty 
+        ##### mode_diff  : Display the difficulty
 
         #Emoji 
         emoji_fete = "\U0001F389"
@@ -1010,8 +1107,8 @@ class Regle_du_jeu:
 
 
         #Function call
-        Grille.letter_min(self)
-        Grille.letter_maj(self)
+        Grid.letter_lower(self)
+        Grid.letter_capital(self)
 
 
         #Title display
@@ -1022,12 +1119,16 @@ class Regle_du_jeu:
 
 
         #Choosing the path to .txt
-        print("Avant toute chose, initialisons votre jeu : \n\n")
-        print("Choississez le chemin d'accès vers votre plateau (sous la forme : 'C:\\...\\...\\...') : ")
-        self.path = input("")
+        #print("Avant toute chose, initialisons votre jeu : \n\n")
+        #print("Choississez le chemin d'accès vers votre plateau (sous la forme : 'C:\\...\\...\\...') : ")
+        #self.path = input("")
+
+        self.path = ".\\programme.txt"
         
-        print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : 'C:\\...\\...\\...') : ")
-        self.path_figure = input("")
+        #print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : 'C:\\...\\...\\...') : ")
+        #self.path_figure = input("")
+    
+        self.path_figure = ".\\test_figure.txt"
         ##
 
 
@@ -1048,9 +1149,12 @@ class Regle_du_jeu:
         if self.choice_user == '1':
 
             #Choice of tray size
-            self.nb_colonne = input("\nChoississez à présent la taille de votre tableau (21, 23 ou 25) : ")
-            while (self.nb_colonne != '21' and self.nb_colonne != '23') and self.nb_colonne != '25':
-                self.nb_colonne = input("Choississez à présent la taille de votre tableau (21, 23 ou 25) : ")
+            self.nb_colonne = input("\nChoississez à présent la taille de votre tableau (21, 23 ou 25)  (26 pour Menu): ")
+            while (self.nb_colonne != '21' and self.nb_colonne != '23') and self.nb_colonne != '26':
+                self.nb_colonne = input("Choississez à présent la taille de votre tableau (21, 23 ou 25) (26 pour Menu): ")
+            
+            if self.nb_colonne == '26':
+                Rule_of_the_game.display(self)
             ##
 
 
@@ -1059,104 +1163,112 @@ class Regle_du_jeu:
             print("1 - {} Triangle".format(emoji_triangle))
             print("2 - {}  Losange".format(emoji_losange))
             print("3 - {}  Cercle".format(emoji_cercle))
-            self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
-            while self.choice_user_plateau < '1' or self.choice_user_plateau > '3':
-                self.choice_user_plateau = input("Faire votre choix (1, 2, 3) : ")
-            ##
+            print("4 - {} Menu".format(emoji_bad))
+            self.choice_user_plateau = input("Faire votre choix (1, 2, 3, 4) : ")
+            while self.choice_user_plateau < '1' or self.choice_user_plateau > '4':
+                self.choice_user_plateau = input("Faire votre choix (1, 2, 3, 4) : ")
+            
+            if self.choice_user_plateau == '4':
+                Rule_of_the_game.display(self)
+            
 
 
             if self.choice_user_plateau == '1':  # Triangle
-                Grille.create_grid(self, ' ', int(self.nb_colonne))
-                Grille.figure_triangle(self, emoji_carre_vide)
-                self.politique_suggestion_blocs(emoji_aleatoire, emoji_tous)
-                Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                Grid.create_grid(self, ' ', int(self.nb_colonne))
+                Grid.shape_triangle(self, emoji_carre_vide)
+                self.user_policy(emoji_aleatoire, emoji_tous)
+                Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                 while True:
-                    Forme.formes_tous(self)
-                    Forme.formes_triangle(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
-                    Placement_figure.placement_figures_grille(self, emoji_carre_vide, emoji_carre_plein)
-                    Forme.formes_tous(self)
-                    Forme.formes_triangle(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.shape_all(self)
+                    Shape.shape_triangle(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    self.user_policy_2(Shape.shape_all(self), Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
+                    Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)
+                    Shape.shape_all(self)
+                    Shape.shape_triangle(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
 
-                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     tm.sleep(.5)
 
-                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
-                    Forme.formes_tous(self)
-                    Forme.formes_triangle(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Shape.shape_all(self)
+                    Shape.shape_triangle(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                 
                     
-            if self.choice_user_plateau == '2':  # Losange
-                Grille.create_grid(self, ' ', int(self.nb_colonne))
-                Grille.figure_losange(self, emoji_carre_vide)
-                self.politique_suggestion_blocs(emoji_aleatoire, emoji_tous)
-                Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+            if self.choice_user_plateau == '2':  # Diamond
+                Grid.create_grid(self, ' ', int(self.nb_colonne))
+                Grid.shape_triangle(self, emoji_carre_vide)
+                self.user_policy(emoji_aleatoire, emoji_tous)
+                Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                 while True:
-                    Forme.formes_tous(self)
-                    Forme.formes_losange(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_losange(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_losange(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
+                    Shape.shape_all(self)
+                    Shape.shape_diamond(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    self.user_policy_2(Shape.shape_all(self), Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
                     
-                    Placement_figure.placement_figures_grille(self, emoji_carre_vide, emoji_carre_plein)                  
-                    Forme.formes_tous(self)
-                    Forme.formes_losange(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_losange(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)                  
+                    Shape.shape_all(self)
+                    Shape.shape_diamond(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
 
-                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     tm.sleep(.5)
                     
-                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
-                    Forme.formes_tous(self)
-                    Forme.formes_losange(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_losange(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Shape.shape_all(self)
+                    Shape.shape_diamond(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                     
                 
-            if self.choice_user_plateau == '3':  # Cercle
-                Grille.create_grid(self, emoji_carre_vide, int(self.nb_colonne))
-                Grille.figure_cercle(self, ' ')
-                self.politique_suggestion_blocs(emoji_aleatoire, emoji_tous)
-                Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+            if self.choice_user_plateau == '3':  # Circle
+                Grid.create_grid(self, emoji_carre_vide, int(self.nb_colonne))
+                Grid.shape_circular(self, ' ')
+                self.user_policy(emoji_aleatoire, emoji_tous)
+                Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                 while True:
-                    Forme.formes_tous(self)
-                    Forme.formes_cercle(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_cercle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.shape_all(self)
+                    Shape.shape_circular(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
                     
-                    self.politique_suggestion_blocs_2(Forme.formes_tous(self), Forme.formes_cercle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
-                    Placement_figure.placement_figures_grille(self, emoji_carre_vide, emoji_carre_plein)
-                    Forme.formes_tous(self)
-                    Forme.formes_cercle(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_cercle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    self.user_policy_2(Shape.shape_all(self), Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
+                    Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)
+                    Shape.shape_all(self)
+                    Shape.shape_circular(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
 
-                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     tm.sleep(.5)
                     
-                    Grille.read_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
-                    Forme.formes_tous(self)
-                    Forme.formes_cercle(self)
-                    Forme.__init__(self)
-                    Forme.affichage_figure_write(self, Forme.formes_tous(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
-                    Forme.affichage_figure_append(self, Forme.formes_cercle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Shape.shape_all(self)
+                    Shape.shape_circular(self)
+                    Shape.__init__(self)
+                    Shape.display_figure_write(self, Shape.shape_all(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+                    Shape.display_figure_append(self, Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein)
+            
+            else:
+                Rule_of_the_game.display(self)
+            ##
                 
-                    
+        #Help Menu
         if self.choice_user == '2':
             print("\n\n\n")
             print("{:^75}\n\n".format("Règles du jeu"))
@@ -1166,78 +1278,116 @@ class Regle_du_jeu:
             print(emoji_mode_de_jeu, "Mode de jeu :    tous   ==> Vous avez le choix de tous les blocs affiliés au plateau")
             print(emoji_check, " - Placer le bloc à partir de ses coordonnées en bas à gauche")
             print(emoji_check, " - Vous avez {} chances (mode {})".format(difficulte, mode_diff))
-            print(emoji_check, " - Taper : STOP pour arreter le jeu ")
-            self.affichage()
+            self.display()
+        ##
 
-        
+        #Generic
         if self.choice_user == '3':
             print("\n\n\n")
             print("{:^75}\n\n".format("Collaborateurs")) 
             lst_author = ["Valentin Menon","Joss Douniama Okana"]
             print("{} {:^25} {}".format(emoji_valentin, lst_author[0], emoji_valentin))
             print("{} {:^25} {}".format(emoji_joss, lst_author[1], emoji_joss))
-            self.affichage()
+            self.display()
+        ##
 
+        #Settings
         if self.choice_user == '4':
             print("\n")
             print("{} {:^5} {}".format(emoji_setting, "  Vous êtes dans les paramètres", emoji_setting))
 
             print("Options : \n")
             print("1 - {}  Changer la difficulté".format(emoji_diff))
+            print("2 - {} Menu".format(emoji_bad))
 
             self.choice_user_para = input("Faire votre choix (1) : ")
-            while self.choice_user_para < '1' or self.choice_user_para > '1':
+            while self.choice_user_para < '1' or self.choice_user_para > '2':
                 self.choice_user_para = input("Faire votre choix (1) : ")
 
+            #Difficulty
             if self.choice_user_para == '1':
                 print("\n")
                 print("1 - {} {:^10} {}   (5 erreurs possibles)".format(emoji_diff_1, "Facile", emoji_diff_1))
                 print("2 - {} {:^10} {}   (3 erreurs possibles)".format(emoji_diff_2, "Moyen ",  emoji_diff_2))
                 print("3 - {} {:^10} {}   (1 erreur  possible )".format(emoji_diff_3, "Dur   ",    emoji_diff_3))
                 print("4 - {} {:^10} {}   (Aucune chance)      ".format(emoji_diff_4, "God   ",    emoji_diff_4))
+                print("5 - {} {:^10} {}                        ".format(emoji_bad, "Menu   ",    emoji_bad))
 
-                self.choice_user_para_diff = input("Faire votre choix (1, 2, 3, 4) : ")
-                while self.choice_user_para_diff < '1' or self.choice_user_para_diff > '4':
-                    self.choice_user_para_diff = input("Faire votre choix (1; 2, 3, 4) : ")
+                self.choice_user_para_diff = input("Faire votre choix (1, 2, 3, 4, 5) : ")
+                while self.choice_user_para_diff < '1' or self.choice_user_para_diff > '5':
+                    self.choice_user_para_diff = input("Faire votre choix (1; 2, 3, 4, 5) : ")
                 
                 if self.choice_user_para_diff == '1':
-                    Regle_du_jeu.affichage(self, 5, "Facile")
+                    Rule_of_the_game.display(self, 5, "Facile")
                 elif self.choice_user_para_diff == '2':
-                    Regle_du_jeu.affichage(self, 3, "Moyen")
+                    Rule_of_the_game.display(self, 3, "Moyen")
                 elif self.choice_user_para_diff == '3':
-                    Regle_du_jeu.affichage(self, 1, "Dur")
+                    Rule_of_the_game.display(self, 1, "Dur")
                 elif self.choice_user_para_diff == '4':
-                    Regle_du_jeu.affichage(self, 0, "God")
+                    Rule_of_the_game.display(self, 0, "God")
+                elif self.choice_user_para_diff == '5':
+                    Rule_of_the_game.display(self)
                 else:
-                    Regle_du_jeu.affichage(self)
+                    Rule_of_the_game.display(self)
+            #    
+            
+            elif self.choice_user_para == '2':
+                Rule_of_the_game.display(self)
+        
+        else:
+            Rule_of_the_game.display(self)
+        ##
 
 
     ####
 
 
     #Block Selection User Policy
-    def politique_suggestion_blocs(self, emoji_alea, emoji_tous):
+    def user_policy(self, emoji_alea, emoji_tous):
+        ### Intialize the user policy
+        ##### emoji_alea, emoji_tous : emoji
+
+        emoji_bad = "\u274E"
         print("\nVous avez le choix entre deux suggestion de blocs :")
         print("1 - {}  Affichage de l'ensemble des blocs du jeu".format(emoji_tous))
         print("2 - {} Affichage de 3 blocs aléatoires".format(emoji_alea))
-        self.choice_user_politique_suggestion = input("Faite votre choix (1, 2): ")
-        while self.choice_user_politique_suggestion < '1' or self.choice_user_politique_suggestion > '2':
-            self.choice_user_politique_suggestion = input("Faite votre choix (1, 2): ")
+        print("3 - {} Menu".format(emoji_bad))
+        self.choice_user_politique_suggestion = input("Faite votre choix (1, 2, 3): ")
+        while self.choice_user_politique_suggestion < '1' or self.choice_user_politique_suggestion > '3':
+            self.choice_user_politique_suggestion = input("Faite votre choix (1, 2, 3): ")
         
-    def politique_suggestion_blocs_2(self, figure_1_suggestion, figure_2_suggestion, path_figure, vide, plein, target, min, maj, bad, good, diff):
+        if self.choice_user_politique_suggestion == '3':
+            Rule_of_the_game.display(self)
+        
+    def user_policy_2(self, figure_1_suggestion, figure_2_suggestion, path_figure, vide, plein, target, min, maj, bad, good, diff):
+        ### Preserve user policy settings during gameplay
+        ##### figure_1_suggestion : one of the shape group
+        ##### figure_2_suggestion : the other shape group
+        ##### path_figure         : path to the .txt where all the blocks are
+        ##### vide  : empty slot
+        ##### plein : full slot
+        ##### target, min, maj, bad, good : emoji
+        ##### diff  : difficulty 
+
+
         if self.choice_user_politique_suggestion == '1':
-            Placement_figure.placement_bloc_tous(self, figure_1_suggestion, figure_2_suggestion, path_figure, vide, plein, target, min, maj, bad, good, diff)
+            Figure_placement.placement_bloc_all(self, figure_1_suggestion, figure_2_suggestion, path_figure, vide, plein, target, min, maj, bad, good, diff)
         if self.choice_user_politique_suggestion == '2':
-            Placement_figure.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3, vide, plein, target, min, maj, bad, good, diff)
+            Figure_placement.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3, vide, plein, target, min, maj, bad, good, diff)
+        else:
+            Rule_of_the_game.display(self)
     ####
                 
-        
-    def return_choice_user_plateau(self):
+    #Return function for other class
+    def return_choice_user_tray(self):
         return self.choice_user_plateau
+    ####
     
 
     #display of points
-    def affichage_points(self):
+    def point_display(self):
+        ### Display the user points
+
         emoji_ligne_horizontal = '\U00002550'
 
 
@@ -1247,20 +1397,23 @@ class Regle_du_jeu:
     ####
 
     #Player Odds Display
-    def chance_restante(self, diff):
+    def remaining_chance(self, diff):
+        ### Displays the user's chance number before defeat
+        ##### diff : difficulty 
+
         emoji_fin = "\u2728"
         emoji_champion = "\U0001f3c6"
         emoji_force = "\u270A"
 
-        middle = " Continue, tu as fait " + str(Placement_figure.return_error_point(self)) + " erreurs . Il te reste " + str(diff-Placement_figure.return_error_point(self)) + " chances"
+        middle = " Continue, tu as fait " + str(Figure_placement.return_error_point(self)) + " erreurs . Il te reste " + str(diff-Figure_placement.return_error_point(self)) + " chances"
 
-        if Placement_figure.return_error_point(self) == 0:
+        if Figure_placement.return_error_point(self) == 0:
             print("{} {:^10} {}".format(emoji_champion, " Champions, Aucune erreur, il te reste tous tes coups", emoji_champion))
-        if Placement_figure.return_error_point(self) > 0 and Placement_figure.return_error_point(self) < diff:
+        if Figure_placement.return_error_point(self) > 0 and Figure_placement.return_error_point(self) < diff:
             print("{} {:^10} {}".format(emoji_force, middle, emoji_force))
-        if Placement_figure.return_error_point(self) == diff:
+        if Figure_placement.return_error_point(self) == diff:
             print("{} {:^10} {}".format(emoji_fin, " C'est fin de carrière pour toi mon ami, la partie est fini", emoji_fin))
-            Regle_du_jeu.affichage(self)
+            Rule_of_the_game.display(self)
 
     ####
 
@@ -1268,5 +1421,5 @@ class Regle_du_jeu:
 
 
 if __name__ == "__main__":
-    Regle_du_jeu().affichage()
+    Rule_of_the_game().display()
     
