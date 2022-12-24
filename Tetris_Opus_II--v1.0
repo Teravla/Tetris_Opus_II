@@ -1,6 +1,8 @@
 
 
 
+
+
 ############################################################
 ### Program Tetris Opus II                               ###
 ###                                                      ###
@@ -14,7 +16,7 @@
 import random as rd
 import time as tm
 import sys
-
+()
 
 #Any function related to the grid
 class Grid:
@@ -1120,10 +1122,9 @@ class Rule_of_the_game:
 
         #Choosing the path to .txt
         print("Avant toute chose, initialisons votre jeu : \n\n")
-        print("Choississez le chemin d'accès vers votre plateau (sous la forme : C:\...\...\... ) : ")
+        print("Choississez le chemin d'accès vers votre plateau (sous la forme : C:\...\...\...) : ")
         self.path = input("")
-        
-        print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : C:\...\...\... ) : ")
+        print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : C:\...\...\...) : ")
         self.path_figure = input("")
         ##
 
@@ -1140,6 +1141,8 @@ class Rule_of_the_game:
         while self.choice_user < '1' or self.choice_user > '4':
             self.choice_user = input("Faire votre choix (1, 2, 3, 4) : ")
         ##
+
+        
 
 
         if self.choice_user == '1':
@@ -1163,6 +1166,9 @@ class Rule_of_the_game:
             self.choice_user_plateau = input("Faire votre choix (1, 2, 3, 4) : ")
             while self.choice_user_plateau < '1' or self.choice_user_plateau > '4':
                 self.choice_user_plateau = input("Faire votre choix (1, 2, 3, 4) : ")
+
+
+            print(self.choice_user_plateau)
             
             if self.choice_user_plateau == '4':
                 Rule_of_the_game.display(self)
@@ -1183,13 +1189,15 @@ class Rule_of_the_game:
                     self.user_policy_2(Shape.shape_all(self), Shape.shape_triangle(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
                     Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Point.points_line(self, emoji_carre_vide, emoji_carre_plein)
+                    Point.points_column(self, emoji_carre_vide, emoji_carre_plein)
                     tm.sleep(.5)
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     
                     
             if self.choice_user_plateau == '2':  # Diamond
                 Grid.create_grid(self, ' ', int(self.nb_colonne))
-                Grid.shape_triangle(self, emoji_carre_vide)
+                Grid.shape_diamond(self, emoji_carre_vide)
                 self.user_policy(emoji_aleatoire, emoji_tous)
                 Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                 while True:
@@ -1201,6 +1209,8 @@ class Rule_of_the_game:
                     self.user_policy_2(Shape.shape_all(self), Shape.shape_diamond(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
                     Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)             
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Point.points_line(self, emoji_carre_vide, emoji_carre_plein)
+                    Point.points_column(self, emoji_carre_vide, emoji_carre_plein)
                     tm.sleep(.5)
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     
@@ -1220,6 +1230,8 @@ class Rule_of_the_game:
                     self.user_policy_2(Shape.shape_all(self), Shape.shape_circular(self), self.path_figure, emoji_carre_vide, emoji_carre_plein, emoji_target, emoji_min, emoji_maj, emoji_bad, emoji_good, difficulte)
                     Figure_placement.placement_shape_grid(self, emoji_carre_vide, emoji_carre_plein)
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
+                    Point.points_line(self, emoji_carre_vide, emoji_carre_plein)
+                    Point.points_column(self, emoji_carre_vide, emoji_carre_plein)
                     tm.sleep(.5)
                     Grid.reading_grid(self, self.path, emoji_ligne_vertical, emoji_ligne_horizontal, emoji_coin_bg, emoji_coin_hg, emoji_coin_bd, emoji_coin_hd)
                     
