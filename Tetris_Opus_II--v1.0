@@ -8,7 +8,7 @@
 ###                                                      ###
 ### Author : Valentin Menon, Joss Douniama Okana         ###
 ###                                                      ###
-### Version : v1.0, 22/12/2022                           ###
+### Version : v1.0.5, 22/12/2022                         ###
 ############################################################
 
 
@@ -16,7 +16,11 @@
 import random as rd
 import time as tm
 import sys
-()
+
+#Variables globales
+
+version_of_game = "v 1.0.5"
+
 
 #Any function related to the grid
 class Grid:
@@ -440,7 +444,7 @@ class Figure_placement:
 
         
 
-        print("\nVoici les choix que vous avez pour 'Affichage de 3 blocs aléatoire' : \n")
+        print("\nVoici les choix que vous avez pour '{} -- Affichage de {} blocs aléatoire -- {}' : \n".format(vide, diff, plein))
 
         
 
@@ -986,7 +990,7 @@ class Point:
 
     #Line points
     def points_line(self, vide, plein):
-        ### Checks lines and removes them if they are full adding points to user
+        ### Checks lines and removes them if they are full and adding points to user
         ##### vide : empty slot
         ##### plein : full slot
 
@@ -1009,6 +1013,7 @@ class Point:
                     while arret == False:
                         for k in range(-2, -len(self.grille_point)-1, -1):
                             for l in range(len(self.grille_point)):
+                                
                                 
                                 if self.grille_point[0][l] == plein_long:
                                     self.grille_point[0][l] == vide_long
@@ -1075,6 +1080,7 @@ class Rule_of_the_game:
         emoji_valentin = "\U0001f4bb"
         emoji_joss = "\U0001F996"
         emoji_jeu = "\U0001F3AE"
+        emoji_jeu_2 = "\t\U0001f579\uFE0F"
         emoji_rule = "\U0001f4d6"
         emoji_copyright = "\U0001FAAA"
         emoji_cercle = "\u23FA\uFE0F"
@@ -1082,8 +1088,8 @@ class Rule_of_the_game:
         emoji_losange = "\u23F9\uFE0F"
         emoji_aleatoire = "\U0001f3b2"
         emoji_tous = "\u267E\uFE0F"
-        emoji_check = "	\u2714\uFE0F"
-        emoji_mode_de_jeu = "\U0001f39f\uFE0F"
+        emoji_check = "\u2714\uFE0F"
+        emoji_mode_de_jeu = "\t\U0001f39f\uFE0F"
         emoji_target = "\U0001f3af"
         emoji_min = "\U0001f521"
         emoji_maj ="\U0001f520"
@@ -1115,17 +1121,20 @@ class Rule_of_the_game:
 
         #Title display
         print("\n\n{:^75}".format(20*emoji_ligne_horizontal))
-        print("\n\n{:^75}\n\n".format(emoji_fete + "  TETRIS, Opus II (v1.0)  " + emoji_fete))
+        print("\n\n{:^75}\n\n".format(emoji_fete + "  TETRIS, Opus II ({})  ".format(version_of_game) + emoji_fete))
         print("{:^75}\n\n".format(20*emoji_ligne_horizontal))
         ##
 
 
         #Choosing the path to .txt
-        print("Avant toute chose, initialisons votre jeu : \n\n")
-        print("Choississez le chemin d'accès vers votre plateau (sous la forme : C:\...\...\...) : ")
-        self.path = input("")
-        print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : C:\...\...\...) : ")
-        self.path_figure = input("")
+        #print("Avant toute chose, initialisons votre jeu : \n\n")
+        #print("Choississez le chemin d'accès vers votre plateau (sous la forme : C:\...\...\...) : ")
+        #self.path = input("")
+        #print("Choississez un chemin d'accès pour le fichier contenant toutes vos figures (sous la forme : C:\...\...\...) : ")
+        #self.path_figure = input("")
+
+        self.path = ".\\programme.txt"
+        self.path_figure = ".\\test_figure.txt"
         ##
 
 
@@ -1250,6 +1259,12 @@ class Rule_of_the_game:
             print(emoji_mode_de_jeu, "Mode de jeu :    tous   ==> Vous avez le choix de tous les blocs affiliés au plateau")
             print(emoji_check, " - Placer le bloc à partir de ses coordonnées en bas à gauche")
             print(emoji_check, " - Vous avez {} chances (mode {})".format(difficulte, mode_diff))
+            print(emoji_check, " - Pour les difficultés, si vous choississez les blocs aléatoires, le nombre de bloc diffère : ")
+            print(emoji_jeu_2, "| {:^5} | : 3 blocs".format("Facile"))
+            print(emoji_jeu_2, "| {:^5}  | : 2 blocs".format("Dur"))
+            print(emoji_jeu_2, "| {:^5}  | : 3 blocs".format("Moyen"))
+            print(emoji_jeu_2, "| {:^5}  | : 1 bloc".format("God"))
+
             self.display()
         ##
 
@@ -1272,9 +1287,9 @@ class Rule_of_the_game:
             print("1 - {}  Changer la difficulté".format(emoji_diff))
             print("2 - {} Menu".format(emoji_bad))
 
-            self.choice_user_para = input("Faire votre choix (1) : ")
+            self.choice_user_para = input("Faire votre choix (1, 2) : ")
             while self.choice_user_para < '1' or self.choice_user_para > '2':
-                self.choice_user_para = input("Faire votre choix (1) : ")
+                self.choice_user_para = input("Faire votre choix (1, 2) : ")
 
             #Difficulty
             if self.choice_user_para == '1':
@@ -1294,9 +1309,9 @@ class Rule_of_the_game:
                 elif self.choice_user_para_diff == '2':
                     Rule_of_the_game.display(self, 3, "Moyen")
                 elif self.choice_user_para_diff == '3':
-                    Rule_of_the_game.display(self, 1, "Dur")
+                    Rule_of_the_game.display(self, 2, "Dur")
                 elif self.choice_user_para_diff == '4':
-                    Rule_of_the_game.display(self, 0, "God")
+                    Rule_of_the_game.display(self, 1, "God")
                 elif self.choice_user_para_diff == '5':
                     Rule_of_the_game.display(self)
                 else:
@@ -1345,7 +1360,15 @@ class Rule_of_the_game:
         if self.choice_user_politique_suggestion == '1':
             Figure_placement.placement_bloc_all(self, figure_1_suggestion, figure_2_suggestion, path_figure, vide, plein, target, min, maj, bad, good, diff)
         if self.choice_user_politique_suggestion == '2':
-            Figure_placement.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3, vide, plein, target, min, maj, bad, good, diff)
+            #number of blocks placed according to the difficulty
+            if diff >= 3: 
+                Figure_placement.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 3, vide, plein, target, min, maj, bad, good, diff)
+            elif diff == 2:
+                Figure_placement.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 2, vide, plein, target, min, maj, bad, good, diff)
+            elif diff == 1:
+                Figure_placement.placement_bloc_alea(self, figure_1_suggestion, figure_2_suggestion, 1, vide, plein, target, min, maj, bad, good, diff)
+            else:
+                print("Contact admin : error 0x3")
         else:
             Rule_of_the_game.display(self)
     ####
@@ -1376,6 +1399,7 @@ class Rule_of_the_game:
         emoji_fin = "\u2728"
         emoji_champion = "\U0001f3c6"
         emoji_force = "\u270A"
+        emoji_sourire = "\U0001f601"
 
         middle = " Continue, tu as fait " + str(Figure_placement.return_error_point(self)) + " erreurs . Il te reste " + str(diff-Figure_placement.return_error_point(self)) + " chances"
 
@@ -1386,6 +1410,7 @@ class Rule_of_the_game:
         if Figure_placement.return_error_point(self) == diff:
             print("{} {:^10} {}".format(emoji_fin, " C'est fin de carrière pour toi mon ami, la partie est fini", emoji_fin))
             Rule_of_the_game.display(self)
+
 
     ####
 
